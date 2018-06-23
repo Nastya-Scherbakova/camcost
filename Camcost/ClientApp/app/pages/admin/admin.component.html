@@ -1,0 +1,96 @@
+<div class="admin-content">
+    <mat-sidenav-container class="example-container">
+        <mat-sidenav #sidenav mode="side" opened="true" class="example-sidenav mat-elevation-z6"
+                     fixedInViewport="true">
+
+            <mat-nav-list>
+                <div class="logo-back">
+                    <img routerLink="/main" mat-list-item src="/logo.svg" width="300" />
+
+                    <button mat-list-item class="admin-menu" (click)="changeToDo(1)" mat-button>Заказы</button>
+                    <div routerLink="/admin/parfumes">
+                        <button mat-list-item class="admin-menu" (click)="changeToDo(2)" mat-button>Работа с продуктами</button>
+                    </div>
+                    <button mat-list-item class="admin-menu" (click)="changeToDo(3)" mat-button>Загрузка файла</button>
+                </div>
+            </mat-nav-list>
+        </mat-sidenav>
+
+        <mat-sidenav-content>
+
+            <mat-toolbar>Кабинет администратора</mat-toolbar>
+            <div *ngIf="todo==1" class="container-fluid main-cont"></div>
+            <div *ngIf="todo==2" class="container-fluid main-cont">
+               
+                <nav mat-tab-nav-bar>
+                    <a mat-tab-link *ngFor="let option of options"
+                       routerLink="../{{relocateWindow(option)}}"
+                       (click)="activeLink = option"
+                       [active]="activeLink == option">{{ option }}</a>
+                    
+                </nav>
+                <search></search>
+            </div>
+            <div *ngIf="todo==3" class="container-fluid main-cont">
+                <form class="example-form">
+
+                    <div class="row content" style="width:500px">
+                        <div class="col">
+                            <button type="button" mat-button (click)="xlsxFileInput.click()">Выберите файл для загрузки <mat-icon>attachment</mat-icon></button>
+                            <input hidden type="file" id="file" #xlsxFileInput (change)="handleFileInput($event.target.files)" /><br />
+                        </div>
+                        <div class="col">
+                            <mat-form-field>
+                                <input value="{{file?.name}}" placeholder="Имя файла" matInput type="text" disabled required />
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+                    <br />
+                    <mat-form-field style="width:250px" class="example-full-width">
+                        <input style="width:250px" matInput [formControl]="myControl" placeholder="Выберите категорию" aria-label="Number" type="text" [matAutocomplete]="auto" required />
+                        <mat-autocomplete #auto="matAutocomplete">
+                            <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+                                {{ option }}
+                            </mat-option>
+                        </mat-autocomplete>
+                    </mat-form-field>
+
+
+                    <mat-form-field style="width:250px">
+                        <mat-select style="width:250px" placeholder="Выберите фильтры (подкатегории)" [formControl]="myControl2" multiple>
+                            <mat-select-trigger>
+                                {{myControl2.value ? myControl2.value[0] : ''}}
+                                <span *ngIf="myControl2.value?.length > 1" class="example-additional-selection">
+                                    (+{{myControl2.value.length - 1}} других)
+                                </span>
+                            </mat-select-trigger>
+                            <div *ngFor="let topping of toppingList">
+                                <mat-option [value]="topping.title">{{topping.title}}</mat-option>
+                            </div>
+                        </mat-select>
+
+                    </mat-form-field>
+                    <br />
+                    <p>
+                        Если не предназначены для конкретного пола - оставьте пустыми:
+                        <br /> <mat-checkbox color="primary">Для женщин</mat-checkbox>
+                        <mat-checkbox color="warn">Для мужчин</mat-checkbox>
+                    </p>
+                    <br /><button type="button" mat-raised-button color="primary" (click)="sendTable(file)"> Импортировать</button>
+
+                </form>
+
+            </div>
+
+            <!--<label>Выберите картинку</label>
+    <input type="file"  (change)="handleImageInput($event.target.files)" />
+    <br />-->
+
+
+
+
+        </mat-sidenav-content>
+    </mat-sidenav-container>
+
+</div>

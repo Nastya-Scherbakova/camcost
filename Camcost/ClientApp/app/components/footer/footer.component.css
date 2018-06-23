@@ -1,0 +1,38 @@
+.footer {
+    display: block;
+    justify-content: center;
+    text-align: center;
+    background-color: rgb(240, 240, 240);
+    padding: 5px;
+    margin-top: 20vh;
+}
+.contacts {
+    display: inline-block;
+    font-family: "century gothic";
+    font-size: 16px;
+    margin-left: 5vw;
+    margin-right: 5vw;
+    margin-bottom: 30px;
+}
+
+    .contacts a {
+        color: #000;
+        text-decoration: none;
+    }
+
+        .contacts a:hover {
+            color: #A90D0D;
+        }
+h4 {
+    color: rgb(169, 13, 13);
+    font-family: "Century Gothic";
+   
+}
+@media (max-width:600px){
+    .contacts {
+        font-size: 14px;
+    }
+    h4 {
+        font-size: 18px;
+    }
+}

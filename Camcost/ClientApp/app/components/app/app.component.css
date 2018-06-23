@@ -1,0 +1,274 @@
+@import 'https://fonts.googleapis.com/css?family=Raleway';
+.slick-arrow:before, .slick-arrow.slick-prev, .slick-arrow.slick-next, .slick-arrow.slick-next:before, .slick-arrow.slick-next:after {
+    outline: none;
+}
+button.slick-arrow:focus, button.slick-next:focus {
+    outline: none !important;
+}
+button:focus {
+    outline: none !important;
+    outline: none !important;
+    -moz-outline-style: none;
+}
+.slider > * {
+    outline: none !important;
+    -moz-outline-style: none;
+}
+.slider-wraper {
+ }
+.colomn1 {
+    width: 20%;
+    
+}
+.centered-content {
+    justify-content:center;
+
+    margin: 10px;
+}
+.slider--item {
+
+    background-repeat: no-repeat;
+    background-size: cover; }
+
+.example-sidenav {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 900px;
+}
+
+.mdl-tabs__tab {
+    text-decoration: none;
+}
+
+.mdl-tabs__panel {
+    display: none;
+}
+
+.vertical-mdl-tabs {
+    margin-top: 30px;
+}
+
+    .vertical-mdl-tabs .mdl-tabs__tab-bar {
+        -webkit-flex-direction: column;
+        -ms-flex-direction: column;
+        flex-direction: column;
+        padding-bottom: 35px;
+        height: inherit;
+        border-bottom: none;
+        border-right: 1px solid rgba(10, 11, 49, 0.20);
+    }
+
+
+    .vertical-mdl-tabs .mdl-tabs__tab {
+        width: 100%;
+        height: 35px;
+        line-height: 35px;
+        box-sizing: border-box;
+        letter-spacing: 2px;
+    }
+
+div.containerr {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    text-transform: uppercase;
+    margin: 0 auto;
+    padding: 0.9em;
+    width: 100%;
+    text-align: center;
+}
+.prev {
+    opacity: 0;
+    -moz-transition: all .3s;
+    -o-transition: all .3s;
+    -webkit-transition: all .3s;
+    transition: all .3s;
+}
+.carousel:hover .prev {
+    opacity: 1;
+    -moz-transition: all .3s;
+    -o-transition: all .3s;
+    -webkit-transition: all .3s;
+    transition: all .3s;
+}
+    div.containerr a {
+        color: #FFF;
+        text-decoration: none;
+        margin: 0px 10px;
+        padding: 10px 10px;
+        position: relative;
+        z-index: 0;
+        cursor: pointer;
+    }
+
+
+.vertical-mdl-tabs .mdl-tabs__tab:hover {
+    background: rgba(158, 158, 158, 0.15);
+    color: black;
+}
+
+.vertical-mdl-tabs.mdl-tabs.is-upgraded a.mdl-tabs__tab.is-active {
+    border-right: 3px solid #A90D0D;
+}
+
+.vertical-mdl-tabs.mdl-tabs.is-upgraded .mdl-tabs__tab.is-active:after {
+    content: inherit;
+    height: 0;
+}
+
+.vertical-mdl-tabs.mdl-tabs.is-upgraded .mdl-tabs__panel.is-active, .mdl-tabs__panel {
+    padding: 0 30px;
+}
+
+.vertical-mdl-tabs.mdl-tabs .mdl-tabs__tab {
+    text-align: left;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.mdl-tabs.is-upgraded .mdl-tabs__tab.is-active {
+    color: #a90d0d;
+}
+
+nav {
+    width: 80%;
+    margin: 0 auto;
+    background: #fff;
+    padding: 10px 0 10px 0;
+}
+
+    nav ul {
+        list-style: none;
+        text-align: center;
+    }
+
+        nav ul li {
+            display: inline-block;
+        }
+
+            nav ul li a {
+                display: block;
+                padding: 15px;
+                text-decoration: none;
+                color: #aaa;
+                text-transform: uppercase;
+                margin: 0 10px;
+                text-align: center;
+                font-size: 18px;
+                margin: 0;
+                font-weight: 300;
+                color: inherit;
+                font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+            }
+
+                nav ul li a,
+                nav ul li a:after,
+                nav ul li a:before {
+                    transition: all .5s;
+                }
+
+                    nav ul li a:hover {
+                        color: #555;
+                    }
+
+    nav.shift ul li a {
+        position: relative;
+        z-index: 0;
+    }
+
+        nav.shift ul li a:hover {
+            color: #712e2e;
+        }
+
+        nav.shift ul li a:after {
+            display: block;
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            margin: auto;
+            width: 100%;
+            height: 1px;
+            content: '.';
+            color: transparent;
+            background: rgba(226, 21, 73, 0.1);
+            visibility: none;
+            opacity: 0;
+            z-index: 0;
+        }
+
+        nav.shift ul li a:hover:after {
+            opacity: 1;
+            visibility: visible;
+            height: 100%;
+        }
+
+.all{
+    width: 100%;
+}
+
+
+
+@media (max-width: 767px) {
+    /* On small screens, the nav menu spans the full width of the screen. Leave a space for it. */
+    .body-content {
+        padding-top: 50px;
+    }
+}
+
+/* Keyframes */
+@-webkit-keyframes fill {
+    0% {
+        width: 0%;
+        height: 1px;
+    }
+
+    50% {
+        width: 100%;
+        height: 1px;
+    }
+
+    100% {
+        width: 100%;
+        height: 100%;
+        background: #333;
+    }
+}
+
+.slick-slide {
+    height: 50vw;
+}
+/* Keyframes */
+@-webkit-keyframes circle {
+    0% {
+        width: 1px;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        margin: auto;
+        height: 1px;
+        z-index: 0;
+        background: #eee;
+        border-radius: 100%;
+    }
+
+    100% {
+        background: #aaa;
+        height: 5000%;
+        width: 5000%;
+        z-index: -1;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        margin: auto;
+        border-radius: 0;
+    }
+}
+.content {
+    margin-top: 5px;
+    background-color: #fafafa;
+}

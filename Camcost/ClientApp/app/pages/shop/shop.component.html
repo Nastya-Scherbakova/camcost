@@ -1,0 +1,49 @@
+<div class="admin-content">
+
+            <mat-toolbar>Кабинет администратора</mat-toolbar>
+        
+                <form class="example-form">
+
+         
+                    <mat-form-field style="width:250px" class="example-full-width">
+                        <input style="width:250px" matInput [formControl]="myControl" placeholder="Выберите категорию" aria-label="Number" type="text" [matAutocomplete]="auto" required />
+                        <mat-autocomplete #auto="matAutocomplete">
+                            <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+                                {{ option }}
+                            </mat-option>
+                        </mat-autocomplete>
+                    </mat-form-field>
+
+
+                    <mat-form-field style="width:250px">
+                        <mat-select style="width:250px" placeholder="Выберите фильтры (подкатегории)" [formControl]="myControl2" multiple>
+                            <mat-select-trigger>
+                                {{myControl2.value ? myControl2.value[0] : ''}}
+                                <span *ngIf="myControl2.value?.length > 1" class="example-additional-selection">
+                                    (+{{myControl2.value.length - 1}} других)
+                                </span>
+                            </mat-select-trigger>
+                            <div *ngFor="let topping of toppingList">
+                                <mat-option [value]="topping.title">{{topping.title}}</mat-option>
+                            </div>
+                        </mat-select>
+
+                    </mat-form-field>
+                    <br />
+                    <p>
+                        Если не предназначены для конкретного пола - оставьте пустыми:
+                        <br /> <mat-checkbox color="primary">Для женщин</mat-checkbox>
+                        <mat-checkbox color="warn">Для мужчин</mat-checkbox>
+                    </p>
+                    <br /><button type="button" mat-raised-button color="primary" (click)="sendTable(file)"> Импортировать</button>
+
+                </form>
+
+            </div>
+
+            <!--<label>Выберите картинку</label>
+    <input type="file"  (change)="handleImageInput($event.target.files)" />
+    <br />-->
+
+
+

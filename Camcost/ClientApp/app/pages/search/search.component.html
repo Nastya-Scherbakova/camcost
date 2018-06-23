@@ -1,0 +1,80 @@
+<div class="row">
+    <div class="col-sm-2 side-filters">
+        <div class="mdl-tabs vertical-mdl-tabs">
+            <div class="mdl-grid mdl-grid--no-spacing" style="width: 100%">
+                <div class="mdl-cell mdl-cell--2-col" style="width: 100%">
+                    <div class="mdl-tabs__tab-bar">
+                        <div class="deep-inner">
+                            Для:<br />
+                            <mat-checkbox color="primary" [(ngModel)]="search.women" (change)="changeParams()">Женщин</mat-checkbox>
+                            <br />
+                            <mat-checkbox color="primary" (change)="changeParams()" [(ngModel)]="search.men">Мужчин</mat-checkbox>
+                        </div>
+                        <div *ngIf="search.parfume" class="mdl-tabs__tab" [class.is-active]="true">
+                            <span class="hollow-circle"></span>
+                            Парфюмерия
+                        </div>
+                        <div *ngIf="search.parfume" style="width: 100%">
+
+                            <div *ngFor="let chb of search.checkboxes">
+                                <div *ngIf="chb.father==='Парфюмерия'" class="mdl-tabs__tab inner-tab" >
+                                    <mat-checkbox color="primary" (change)="changeParams()" [(ngModel)]="chb.checked">{{chb.title}}</mat-checkbox>
+                                    <div class="deep-inner" *ngIf="chb.checked">
+                                        <div *ngFor="let chb2 of search.checkboxes">
+                                            <div class="mdl-tabs__tab inner-tab" *ngIf="chb2.father===chb.title">
+                                                <mat-checkbox color="primary" (change)="changeParams()" [(ngModel)]="chb2.checked">{{chb2.title}}</mat-checkbox>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        </div>
+                        <div *ngIf="search.cosmetics" class="mdl-tabs__tab"  [class.is-active]="true">
+                            <span class="hollow-circle"></span>
+                            Косметика
+                        </div>
+                        <div *ngIf="search.wash" class="mdl-tabs__tab"  [class.is-active]="true">
+                            <span class="hollow-circle"></span>
+                            Средства для стирки
+                        </div>
+                        <div *ngIf="search.bodycare" class="mdl-tabs__tab"  [class.is-active]="true">
+                            <span class="hollow-circle"></span>
+                            Уход за телом
+                        </div>
+                        <div *ngIf="search.bodycare">
+                            <div *ngFor="let chb of search.checkboxes">
+                                <div *ngIf="chb.father==='Уход за телом'" class="mdl-tabs__tab inner-tab">
+                                    <mat-checkbox color="primary" (change)="changeParams()" [(ngModel)]="chb.checked">{{chb.title}}</mat-checkbox>
+                                    <div class="deep-inner" *ngIf="chb.checked">
+                                        <div *ngFor="let chb2 of search.checkboxes">
+                                            <div class="mdl-tabs__tab inner-tab" *ngIf="chb2.father===chb.title">
+                                                <mat-checkbox color="primary" (change)="changeParams()" [(ngModel)]="chb2.checked">{{chb2.title}}</mat-checkbox>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div *ngIf="search.hair" class="mdl-tabs__tab"  [class.is-active]="true">
+                            <span class="hollow-circle"></span>
+                            Профессиональная техника для парикмахерских
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div *ngIf="firms">
+            <div *ngFor="let firm of firms" class="mdl-tabs__tab inner-tab">
+                <mat-checkbox color="primary" (change)="changeParams()" [(ngModel)]="firm.checked">{{firm.title}}</mat-checkbox>
+            </div>
+        </div>
+    </div>
+    <div class="col"> <items [parametres]="parametres"></items></div>
+</div>
