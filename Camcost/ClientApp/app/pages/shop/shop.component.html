@@ -1,49 +1,87 @@
-<div class="admin-content">
+<div>
 
-            <mat-toolbar>Кабинет администратора</mat-toolbar>
-        
-                <form class="example-form">
+    <mat-toolbar color="primary" class="mat-elevation-z6">Корзина</mat-toolbar>
 
-         
-                    <mat-form-field style="width:250px" class="example-full-width">
-                        <input style="width:250px" matInput [formControl]="myControl" placeholder="Выберите категорию" aria-label="Number" type="text" [matAutocomplete]="auto" required />
-                        <mat-autocomplete #auto="matAutocomplete">
-                            <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
-                                {{ option }}
-                            </mat-option>
-                        </mat-autocomplete>
-                    </mat-form-field>
-
-
-                    <mat-form-field style="width:250px">
-                        <mat-select style="width:250px" placeholder="Выберите фильтры (подкатегории)" [formControl]="myControl2" multiple>
-                            <mat-select-trigger>
-                                {{myControl2.value ? myControl2.value[0] : ''}}
-                                <span *ngIf="myControl2.value?.length > 1" class="example-additional-selection">
-                                    (+{{myControl2.value.length - 1}} других)
-                                </span>
-                            </mat-select-trigger>
-                            <div *ngFor="let topping of toppingList">
-                                <mat-option [value]="topping.title">{{topping.title}}</mat-option>
-                            </div>
-                        </mat-select>
-
-                    </mat-form-field>
-                    <br />
-                    <p>
-                        Если не предназначены для конкретного пола - оставьте пустыми:
-                        <br /> <mat-checkbox color="primary">Для женщин</mat-checkbox>
-                        <mat-checkbox color="warn">Для мужчин</mat-checkbox>
-                    </p>
-                    <br /><button type="button" mat-raised-button color="primary" (click)="sendTable(file)"> Импортировать</button>
-
-                </form>
-
+    <mat-horizontal-stepper [linear]="true" #stepper="matHorizontalStepper">
+        <mat-step [stepControl]="firstFormGroup">
+            <form [formGroup]="firstFormGroup">
+                <ng-template matStepLabel>Информация о покупателе</ng-template>
+                <mat-form-field class="form-input" >
+                    <input matInput placeholder="Фамилия" formControlName="surname" required>
+                </mat-form-field>
+                <mat-form-field class="form-input" >
+                    <input matInput placeholder="Имя" formControlName="name" required>
+                </mat-form-field>
+                <mat-form-field class="form-input" >
+                    <input matInput placeholder="Отчество" formControlName="middlename" required>
+                </mat-form-field>
+                <mat-form-field class="form-input" >
+                    <input matInput placeholder="Email" formControlName="email" required>
+                </mat-form-field>
+                <mat-form-field class="form-input" >
+                    <span matPrefix>+380 &nbsp;</span>
+                    <input type="tel" matInput placeholder="Телефон" formControlName="phone" required>
+                    <mat-icon matSuffix>mode_edit</mat-icon>
+                </mat-form-field>
+                <div>
+                    <button mat-button matStepperNext>Далее</button>
+                </div>
+            </form>
+        </mat-step>
+        <mat-step [stepControl]="secondFormGroup">
+            <form [formGroup]="secondFormGroup">
+                <ng-template matStepLabel>Fill out your address</ng-template>
+                <mat-form-field>
+                    <input matInput placeholder="Address" formControlName="secondCtrl" required>
+                </mat-form-field>
+                <div>
+                    <button mat-button matStepperPrevious>Back</button>
+                    <button mat-button matStepperNext>Next</button>
+                </div>
+            </form>
+        </mat-step>
+        <mat-step>
+            <ng-template matStepLabel>Done</ng-template>
+            You are now done.
+            <div>
+                <button mat-button matStepperPrevious>Back</button>
+                <button mat-button (click)="stepper.reset()">Reset</button>
             </div>
+        </mat-step>
+    </mat-horizontal-stepper>
 
-            <!--<label>Выберите картинку</label>
-    <input type="file"  (change)="handleImageInput($event.target.files)" />
-    <br />-->
+    <div class="item" *ngFor="let item of userItems">
+        <mat-card class="example-card">
+            <mat-card-header>
+
+                <mat-card-title>{{item.title}}</mat-card-title>
+                <mat-card-subtitle>{{item.cathegory}} </mat-card-subtitle>
+            </mat-card-header>
+            <img mat-card-image *ngIf="!item.image" src="/images/none.png" alt="{{item.title}}">
+            <img mat-card-image *ngIf="item.image" src="data:image/png;base64,{{item.image}}" alt="{{item.title}}">
+            <mat-card-content>
+
+                <nav class="btn-bar nav-light">
+
+                    <a href="#" class="btn-glass btn-danger">
+                        <i class="fa fa-fw fa-lg fa-times"></i>{{item.price}} грн
+                    </a>
+
+                </nav>
+
+            </mat-card-content>
+            <mat-card-actions>
+                <button mat-button><mat-icon style="color:#A90D0D">loyalty</mat-icon>В корзину </button>
+                <button mat-button><mat-icon style="color:#A90D0D">subject</mat-icon>Подробнее</button>
+            </mat-card-actions>
+        </mat-card>
+    </div>
+
+    <br /><button type="button" mat-raised-button color="primary">Оформить заказ</button>
 
 
+</div>
 
+<!--<label>Выберите картинку</label>
+<input type="file"  (change)="handleImageInput($event.target.files)" />
+<br />-->

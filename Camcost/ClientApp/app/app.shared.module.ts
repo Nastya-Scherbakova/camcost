@@ -19,6 +19,7 @@ import {MatInputModule} from '@angular/material';
 import {MatSelectModule} from '@angular/material/select';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatTabsModule} from '@angular/material/tabs';
+import {MatStepperModule} from '@angular/material/stepper';
 
 //services
 import { ApiService } from './services/api.service';
@@ -78,6 +79,7 @@ import { ShopComponent } from './pages/shop/shop.component';
     MatSelectModule,
     MatButtonModule,
     MatIconModule,
+    MatStepperModule,
     MatCheckboxModule,
     MatExpansionModule,
     MatListModule,

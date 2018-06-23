@@ -5,7 +5,7 @@ import {  SearchForm, Checkbox } from '../../models/search-form.model';
 import { ApiService } from '../../services/api.service';
 import { HttpClient, HttpResponse, HttpClientModule} from '@angular/common/http';
 import { Http, HttpModule } from '@angular/http'
-import {FormControl} from '@angular/forms';
+import {FormControl, FormGroup, Validators, FormBuilder} from '@angular/forms';
 import {Observable} from 'rxjs/Observable';
 import {startWith} from 'rxjs/operators/startWith';
 import {map} from 'rxjs/operators/map';
@@ -22,12 +22,24 @@ export class ShopComponent {
 
     myControl: FormControl = new FormControl();
   myControl2: FormControl = new FormControl();
+ firstFormGroup: FormGroup;
+  secondFormGroup: FormGroup;
 
-  ];
  
+   ngOnInit() {
+    this.firstFormGroup = this._formBuilder.group({
+      name: ['', Validators.required],
+      surname: ['', Validators.required],
+      middlename: ['', Validators.required],
+      email: ['', Validators.required],
+      phone: ['', Validators.required]
+    });
+    this.secondFormGroup = this._formBuilder.group({
+      secondCtrl: ['', Validators.required]
+    });
+  }
 
-
-    constructor(private http: HttpClient, private location:Location) {
+    constructor(private http: HttpClient, private location:Location, private _formBuilder: FormBuilder) {
      
     this.api = new ApiService(http);
  
