@@ -1,30 +1,146 @@
 @import 'https://fonts.googleapis.com/css?family=Raleway';
-.top-line {
-   //background-color: #282828;
-   //height: 20px;
 
+.top-line {
+    //background-color: #282828;
+    //height: 20px;
 }
+
 div.containerr a:hover {
     color: rgba(169, 13, 13, 0.88);
-   
 }
 
-.head-top {
-    height: 140px;
-}
 
 .grey {
     background: #fff;
     box-shadow: 0 2px 1px -1px rgba(0,0,0,.2), 0 3px 1px 0 rgba(0,0,0,.14), 0 5px 5px 0 rgba(0,0,0,.12);
 }
 
+.call {
+    display: inline-block;
+    color: #A90D0D;
+    left: -30px;
+}
+
+.contacts-holder {
+    display: flex;
+    align-items: center;
+}
+
+
+.contacts {
+    text-align: center;
+    display: inline-block;
+    font-family: "century gothic";
+    width: 100%;
+    background-color: #f9f9f9;
+    padding: 20px 0;
+}
+
+    .contacts a {
+        color: #000;
+        text-decoration: none;
+    }
+
+        .contacts a:hover {
+            color: #A90D0D;
+        }
+
+@media (min-width: 1200px) {
+    .number-break {
+        display: none;
+    }
+}
+
+@media (max-width: 767.9px) {
+    .contacts {
+        display: none;
+    }
+}
+
 .logo {
     width: 100%;
-    height: 100%;
-    position: relative;
+    height: 140px;
+    display: flex;
+    justify-content: flex-end;
     background: url(logo-min.png) 50% 50%/contain no-repeat;
-    max-width: 400px;
-    margin: 0 auto;
+    align-self: center;
+}
+
+@media (max-width: 1080px) {
+    .logo {
+        height: 90px;
+    }
+}
+
+.home-link {
+    display: block;
+    height: 100%;
+    width: 100%;
+}
+
+@media (min-width: 767px) {
+    .logo {
+        max-width: 500px;
+        margin: auto;
+    }
+}
+
+.shop {
+    display: flex;
+    align-items: center;
+}
+
+.basket {
+    width: 50px;
+    height: 50px;
+}
+
+.shop .basket svg path {
+    margin-top: 2px;
+}
+
+.camcost-logo {
+    display: inline-block;
+    width: 40%;
+}
+
+.hamburger {
+    position: absolute;
+    display: none;
+    left: 0;
+    top: 18px;
+}
+
+.menu-wrap-icon {
+    color: #A90D0D;
+    font-size: 7vw;
+    width: 7vw;
+    height: auto;
+}
+
+@media (max-width: 767.9px) {
+    .navigation-menu {
+        display: none;
+    }
+
+    .hamburger {
+        display: block;
+    }
+
+    #search {
+        display: none;
+    }
+}
+
+@media (max-width: 640px) {
+    .logo {
+        height: 70px;
+    }
+
+    .basket {
+        width: 30px;
+        height: 30px;
+    }
 }
 
 .list-menu div {
@@ -49,18 +165,18 @@ div.containerr a:hover {
 }
 
     .list-menu div:hover {
-        
         color: #fff;
-
     }
+
 svg {
     text-align: end;
 }
+
 .list-menu div:hover {
     background-color: rgba(190, 8, 8, 0.65);
     color: rgba(255, 255, 255, 0.88);
-
 }
+
 @import url(http://fonts.googleapis.com/css?family=Montserrat);
 
 /*search*/
@@ -121,13 +237,37 @@ svg {
     cursor: pointer;
 }
 
+.mobile-search {
+    display: none;
+}
+
+@media (max-width: 767.9px) {
+    .mobile-search {
+        display: flex;
+        align-items: center;
+        margin-right: 10px;
+    }
+
+    .mobile-search #search_button {
+        height: 45px;
+        width: 45px;
+    }
+}
+
+@media (max-width: 640px) {
+    .mobile-search #search_button {
+        height: 30px;
+        width: 30px;
+    }
+}
+
 .menu-desc {
     height: 300px;
     position: absolute;
     width: 100%;
     left: 0;
     padding: 21px 40px 24px;
-    top: 195px;
+    top: 182px;
     border-top: 2px solid #A90D0D;
     background-color: #fafafa;
     text-align: left;
@@ -145,44 +285,28 @@ svg {
     -webkit-box-shadow: 0 0 10px rgba(0,0,0,0.15);
     box-shadow: 0 0 10px rgba(0,0,0,0.15);
 }
+
+@media (max-width: 1080px) {
+    .menu-desc {
+        top: 142px;
+    }
+}
+
+@media (max-width: 868px) and (min-width: 768px) {
+    .menu-desc {
+        top: 162px;
+    }
+
+    .nav-menu-link {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+}
 ::selection {
     background: #212129;
 }
-.call {
-    display: inline-block;
-    color: #A90D0D;
-  
-    left: -30px;
-}
 
-.contacts-holder {
-    display: flex;
-    align-items: center;
-}
-
-.contacts {
-    text-align: center;
-    display: inline-block;
-    font-family: "century gothic";
-    width: 100%;
-    background-color: #f9f9f9;
-    padding: 20px 0;
-}
-    .contacts a {
-        color: #000;
-        text-decoration:none;
-    }
-    .contacts a:hover {
-        color: #A90D0D;
-    }
-    @media (max-width: 768px){
-        .contacts {
-            font-size: 1rem;
-        }
-        .contacts .call {
-            font-size: 1rem;
-        }
-    }
 
 .example-container {
     position: absolute;
@@ -198,6 +322,7 @@ svg {
     overflow: auto;
     border: 1px solid #555;
 }
+
 .mat-drawer {
     width: 80%;
     position: relative;
@@ -212,6 +337,7 @@ svg {
     overflow-y: auto;
     transform: translate3d(-100%,0,0);
 }
+
 .nav-menu-link {
     font-family: "century gothic";
     text-transform: uppercase;
@@ -224,26 +350,19 @@ svg {
     border-right: 1px solid #dadada;
     cursor: pointer;
 }
-.nav-menu-link:last-child {
-    border: none;
-}
-.menu-wrap-icon {
-    color: #A90D0D;
-    font-size: 7vw;
-    width: 7vw;
-    height: auto;
-    display: none;
-    margin-left: 0.5em;
-}
+
+    .nav-menu-link:last-child {
+        border: none;
+    }
+
 .close {
-    
     color: #A90D0D;
     font-size: 7vw;
     width: 7vw;
     height: auto;
-   
     margin-left: 0.5em;
 }
+
 .close-button {
     display: flex;
     margin-left: 80%;
@@ -256,7 +375,6 @@ div.borderXwidth a:before, div.borderXwidth a:after {
     width: 0%;
     height: 1px;
     content: '';
-    
     background: rgba(0, 0, 0, 0.6);
     transition: all 0.3s;
 }
@@ -274,20 +392,4 @@ div.borderXwidth a:after {
 div.borderXwidth a:hover:before, div.borderXwidth a:hover:after {
     opacity: 1;
     width: 100%;
-  
-}
-.shop {
-    position: absolute;
-    right: -50px;
-    top: 33%;
-    display: flex;
-    align-items: center;
-}
-.basket {
-    width: 50px;
-    height: 50px;
-}
-.camcost-logo {
-    display: inline-block;
-    width: 40%;
 }
