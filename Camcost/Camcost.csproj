@@ -28,6 +28,7 @@
     <None Remove="ClientApp\app\models\page-view.model.ts" />
     <None Remove="ClientApp\app\models\search-form.model.ts" />
     <None Remove="ClientApp\app\services\api.service.ts" />
+    <None Remove="ClientApp\app\services\data.service.ts" />
   </ItemGroup>
 
   <ItemGroup>
@@ -36,6 +37,7 @@
     <TypeScriptCompile Include="ClientApp\app\models\search-form.model.ts" />
     <TypeScriptCompile Include="ClientApp\app\models\item.model.ts" />
     <TypeScriptCompile Include="ClientApp\app\services\api.service.ts" />
+    <TypeScriptCompile Include="ClientApp\app\services\data.service.ts" />
   </ItemGroup>
 
   <Target Name="DebugRunWebpack" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('wwwroot\dist') ">

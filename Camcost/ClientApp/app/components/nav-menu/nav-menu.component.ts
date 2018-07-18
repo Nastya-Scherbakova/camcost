@@ -1,5 +1,8 @@
 ﻿import { Component } from '@angular/core';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import {DataService} from "../../services/data.service";
+import {Item} from "../../models/item.model";
+
 
 
 @Component({
@@ -7,7 +10,16 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
     templateUrl: './nav-menu.component.html',
     styleUrls: ['./nav-menu.component.css']
 })
-export class NavMenuComponent {
+export class NavMenuComponent{
+
+  public data:Array<Item>;
+  constructor(private dataService: DataService) {
+    
+  }
+  ngOnInit() {
+    this.data = this.dataService.getData();
+ 
+  }
   fillerNav = [{
     id: 1, name:
       'Главная'

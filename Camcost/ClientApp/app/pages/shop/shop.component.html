@@ -1,87 +1,170 @@
-<div>
+<div class="shop-content container-fluid">
 
-    <mat-toolbar color="primary" class="mat-elevation-z6">Корзина</mat-toolbar>
+    <mat-toolbar color="primary" class="">Корзина</mat-toolbar>
+  
+    <div *ngIf="userItems.length > 0" class="container-fluid">
+        <ngx-slick class="carousel" #slickModal="slick-modal" [config]="slideConfig" (afterChange)="afterChange($event)">
 
-    <mat-horizontal-stepper [linear]="true" #stepper="matHorizontalStepper">
-        <mat-step [stepControl]="firstFormGroup">
-            <form [formGroup]="firstFormGroup">
-                <ng-template matStepLabel>Информация о покупателе</ng-template>
-                <mat-form-field class="form-input" >
-                    <input matInput placeholder="Фамилия" formControlName="surname" required>
-                </mat-form-field>
-                <mat-form-field class="form-input" >
-                    <input matInput placeholder="Имя" formControlName="name" required>
-                </mat-form-field>
-                <mat-form-field class="form-input" >
-                    <input matInput placeholder="Отчество" formControlName="middlename" required>
-                </mat-form-field>
-                <mat-form-field class="form-input" >
-                    <input matInput placeholder="Email" formControlName="email" required>
-                </mat-form-field>
-                <mat-form-field class="form-input" >
-                    <span matPrefix>+380 &nbsp;</span>
-                    <input type="tel" matInput placeholder="Телефон" formControlName="phone" required>
-                    <mat-icon matSuffix>mode_edit</mat-icon>
-                </mat-form-field>
-                <div>
-                    <button mat-button matStepperNext>Далее</button>
-                </div>
-            </form>
-        </mat-step>
-        <mat-step [stepControl]="secondFormGroup">
-            <form [formGroup]="secondFormGroup">
-                <ng-template matStepLabel>Fill out your address</ng-template>
-                <mat-form-field>
-                    <input matInput placeholder="Address" formControlName="secondCtrl" required>
-                </mat-form-field>
-                <div>
-                    <button mat-button matStepperPrevious>Back</button>
-                    <button mat-button matStepperNext>Next</button>
-                </div>
-            </form>
-        </mat-step>
-        <mat-step>
-            <ng-template matStepLabel>Done</ng-template>
-            You are now done.
-            <div>
-                <button mat-button matStepperPrevious>Back</button>
-                <button mat-button (click)="stepper.reset()">Reset</button>
+            <div ngxSlickItem class="item" *ngFor="let item of userItems">
+                <mat-card class="example-card">
+                    <mat-card-header>
+
+                        <mat-card-title>{{item.title}}</mat-card-title>
+                        <mat-card-subtitle>{{item.cathegory}} </mat-card-subtitle>
+                    </mat-card-header>
+                    <img mat-card-image *ngIf="!item.image" src="/images/none.png" alt="{{item.title}}">
+                    <img mat-card-image *ngIf="item.image" src="data:image/png;base64,{{item.image}}" alt="{{item.title}}">
+                    <mat-card-content>
+
+                        <nav class="btn-bar nav-light">
+
+                            <a href="#" class="btn-glass btn-danger">
+                                <i class="fa fa-fw fa-lg fa-times"></i>{{item.price}} грн
+                            </a>
+
+                        </nav>
+
+                    </mat-card-content>
+                    <mat-card-actions>
+                        <button mat-button><mat-icon style="color:#A90D0D">delete</mat-icon>Удалить</button>
+                        <button mat-button><mat-icon style="color:#A90D0D">subject</mat-icon>Подробнее</button>
+                    </mat-card-actions>
+                </mat-card>
             </div>
-        </mat-step>
-    </mat-horizontal-stepper>
 
-    <div class="item" *ngFor="let item of userItems">
-        <mat-card class="example-card">
-            <mat-card-header>
-
-                <mat-card-title>{{item.title}}</mat-card-title>
-                <mat-card-subtitle>{{item.cathegory}} </mat-card-subtitle>
-            </mat-card-header>
-            <img mat-card-image *ngIf="!item.image" src="/images/none.png" alt="{{item.title}}">
-            <img mat-card-image *ngIf="item.image" src="data:image/png;base64,{{item.image}}" alt="{{item.title}}">
-            <mat-card-content>
-
-                <nav class="btn-bar nav-light">
-
-                    <a href="#" class="btn-glass btn-danger">
-                        <i class="fa fa-fw fa-lg fa-times"></i>{{item.price}} грн
-                    </a>
-
-                </nav>
-
-            </mat-card-content>
-            <mat-card-actions>
-                <button mat-button><mat-icon style="color:#A90D0D">loyalty</mat-icon>В корзину </button>
-                <button mat-button><mat-icon style="color:#A90D0D">subject</mat-icon>Подробнее</button>
-            </mat-card-actions>
-        </mat-card>
+        </ngx-slick>
     </div>
+    <div *ngIf="userItems.length === 0">
+        <div class="jumbotron jumbotron-fluid mat-elevation-z2">
+            <div class="container">
+                <h1 class="display-4">В вашей корзине нет товара</h1>
+                <p class="lead">Выберите интересующие вас продукты и возвращайтесь сюда для оформления заказа.</p>
+            </div>
+        </div>
+    </div>
+    <br /><button type="button" mat-raised-button color="primary" class="centered" *ngIf="!showStepper && (userItems.length !== 0)" (click)="stepperActions(steps);">Оформить заказ</button>
 
-    <br /><button type="button" mat-raised-button color="primary">Оформить заказ</button>
+    <div #steps>
+        <mat-horizontal-stepper *ngIf="showStepper" [linear]="true" #stepper="matHorizontalStepper">
+            <mat-step [stepControl]="firstFormGroup">
+
+                <form [formGroup]="firstFormGroup" class="centered-content">
+                    <ng-template matStepLabel>Информация о покупателе</ng-template>
+                    <mat-form-field class="form-input">
+                        <input matInput placeholder="Фамилия" formControlName="surname" required>
+                        <mat-error *ngFor="let validation of account_validation_messages.surname">
+                            <mat-error class="error-message" *ngIf="firstFormGroup.get('surname').hasError(validation.type) && (firstFormGroup.get('surname').dirty || firstFormGroup.get('surname').touched)">{{validation.message}}</mat-error>
+                        </mat-error>
+                    </mat-form-field>
+                    <mat-form-field class="form-input">
+                        <input matInput placeholder="Имя" formControlName="name" required>
+                        <mat-error *ngFor="let validation of account_validation_messages.name">
+                            <mat-error class="error-message" *ngIf="firstFormGroup.get('name').hasError(validation.type) && (firstFormGroup.get('name').dirty || firstFormGroup.get('name').touched)">{{validation.message}}</mat-error>
+                        </mat-error>
+                    </mat-form-field>
+                    <mat-form-field class="form-input">
+                        <input matInput placeholder="Отчество" formControlName="middlename">
+                        <mat-error *ngFor="let validation of account_validation_messages.middlename">
+                            <mat-error class="error-message" *ngIf="firstFormGroup.get('middlename').hasError(validation.type) && (firstFormGroup.get('middlename').dirty || firstFormGroup.get('middlename').touched)">{{validation.message}}</mat-error>
+                        </mat-error>
+                    </mat-form-field>
+                    <mat-form-field class="form-input">
+                        <input matInput placeholder="Email" formControlName="email" required>
+                        <mat-error *ngFor="let validation of account_validation_messages.email">
+                            <mat-error class="error-message" *ngIf="firstFormGroup.get('email').hasError(validation.type) && (firstFormGroup.get('email').dirty || firstFormGroup.get('email').touched)">{{validation.message}}</mat-error>
+                        </mat-error>
+                    </mat-form-field>
+                    <mat-form-field class="form-input">
+                        <span matPrefix>+380 &nbsp;</span>
+                        <input type="tel" matInput placeholder="Телефон" formControlName="phone" required>
+                        <mat-icon matSuffix>mode_edit</mat-icon>
+                        <mat-error *ngFor="let validation of account_validation_messages.phone">
+                            <mat-error class="error-message" *ngIf="firstFormGroup.get('phone').hasError(validation.type) && (firstFormGroup.get('phone').dirty || firstFormGroup.get('phone').touched)">{{validation.message}}</mat-error>
+                        </mat-error>
+                    </mat-form-field>
+                    <div>
+                        <button mat-button matStepperNext>Далее</button>
+                    </div>
+                </form>
+            </mat-step>
+            <mat-step [stepControl]="secondFormGroup">
+                <form [formGroup]="secondFormGroup" class="centered-content">
+                    <ng-template matStepLabel>Информация о доставке</ng-template>
+                    <mat-form-field class="form-input">
+                        <mat-select placeholder="Способ оплаты" formControlName="payVariant" required>
+                            <mat-option *ngFor="let variant of payVariants" [value]="variant">
+                                {{ variant }}
+                            </mat-option>
+                        </mat-select>
+                        <mat-error *ngFor="let validation of account_validation_messages.payVariant">
+                            <mat-error class="error-message" *ngIf="secondFormGroup.get('payVariant').hasError(validation.type) && (secondFormGroup.get('payVariant').dirty || secondFormGroup.get('payVariant').touched)">{{validation.message}}</mat-error>
+                        </mat-error>
+                    </mat-form-field>
+                    <mat-form-field class="form-input">
+                        <mat-select placeholder="Способ доставки" formControlName="deliveryVariant" required>
+                            <mat-option *ngFor="let dvariant of deliveryVariants" [value]="dvariant">
+                                {{ dvariant }}
+                            </mat-option>
+                        </mat-select>
+                        <mat-error *ngFor="let validation of account_validation_messages.deliveryVariant">
+                            <mat-error class="error-message" *ngIf="secondFormGroup.get('deliveryVariant').hasError(validation.type) && (secondFormGroup.get('deliveryVariant').dirty || secondFormGroup.get('deliveryVariant').touched)">{{validation.message}}</mat-error>
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-radio-group formControlName="takeVariant" required>
+                        <mat-radio-button value="1" checked>В отделении</mat-radio-button>
+                        <mat-radio-button value="2">По адресу</mat-radio-button>
+                    </mat-radio-group>
+                    <mat-form-field class="form-input">
+                        <input type="text" placeholder="Город доставки" matInput formControlName="cityCtrl" [matAutocomplete]="auto">
+                        <mat-autocomplete #auto="matAutocomplete">
+                            <mat-option *ngFor="let city of filteredOptions | async" [value]="city">
+                                {{ city }}
+                            </mat-option>
+                        </mat-autocomplete>
+                    </mat-form-field>
+
+                    <mat-form-field class="form-input" *ngIf="secondFormGroup.controls.takeVariant.value==1">
+                        <input type="text" placeholder="Отделение" matInput formControlName="postmail" [matAutocomplete]="autoP">
+                        <mat-autocomplete #autoP="matAutocomplete">
+                            <mat-option *ngFor="let mail of filteredMails | async" [value]="mail">
+                                {{ mail }}
+                            </mat-option>
+                        </mat-autocomplete>
+
+                    </mat-form-field>
+                    <div class="form-input" *ngIf="secondFormGroup.controls.takeVariant.value==2">
+                        <mat-form-field class="col">
+                            <input matInput placeholder="Улица" formControlName="street">
+                        </mat-form-field>
+                        <mat-form-field class="small-field col-2">
+                            <input matInput placeholder="Дом" formControlName="house">
+                        </mat-form-field>
+                        <mat-form-field class="small-field col-2">
+                            <input matInput placeholder="Квартира" formControlName="room">
+                        </mat-form-field>
+                    </div>
+                    <mat-form-field class="form-input">
+                        <textarea matInput matAutosizeMinRows="5" placeholder="Ваш комментарий" formControlName="comment"></textarea>
+
+                    </mat-form-field>
+                    <div>
+                        <button mat-button matStepperPrevious>Назад</button>
+                        <button mat-button matStepperNext>Далее</button>
+                    </div>
+                </form>
+            </mat-step>
+            <mat-step>
+                <ng-template matStepLabel>Готово</ng-template>
+                Благодарим за ваш заказ. Мы вскоре с вами свяжемся.
+                <!--<div>
+                    <button mat-button matStepperPrevious>Назад</button>
+                    <button mat-button (click)="stepper.reset()">Сбросить</button>
+                </div>-->
+            </mat-step>
+        </mat-horizontal-stepper>
+    </div>
 
 
 </div>
 
-<!--<label>Выберите картинку</label>
-<input type="file"  (change)="handleImageInput($event.target.files)" />
-<br />-->

@@ -26,7 +26,10 @@ div.containerr a:hover {
     max-width: 400px;
     margin: 0 auto;
 }
-
+.chip {
+    margin-left: -20px;
+    margin-top: 5px;
+}
 .list-menu div {
     cursor: pointer;
     background-color: rgba(255, 255, 255, 0.75);

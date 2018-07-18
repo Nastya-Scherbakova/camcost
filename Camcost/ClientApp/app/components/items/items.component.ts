@@ -5,6 +5,7 @@ import { ApiService } from '../../services/api.service';
 import { HttpClient, HttpResponse, HttpClientModule } from '@angular/common/http';
 import { Http, HttpModule } from '@angular/http'
 import { PageViewModel } from '../../models/page-view.model';
+import {DataService} from "../../services/data.service";
 
 
 
@@ -23,7 +24,7 @@ export class ItemsComponent  {
 
   public isFullListDisplayed: boolean = false;
   api: ApiService;
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private dataService:DataService) {
     this.api = new ApiService(http);
     this.initializeItems();
     
@@ -40,6 +41,9 @@ export class ItemsComponent  {
     })
     // this.items=res);
 
+  }
+  public addUserItem(item: Item) {
+    this.dataService.addData(item);
   }
   public filter() {
     console.log("filter");

@@ -20,7 +20,9 @@ import {MatSelectModule} from '@angular/material/select';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatTabsModule} from '@angular/material/tabs';
 import {MatStepperModule} from '@angular/material/stepper';
-
+import {MatRadioModule} from '@angular/material/radio';
+import {MatChipsModule} from '@angular/material/chips';
+import { SlickModule } from 'ngx-slick';
 //services
 import { ApiService } from './services/api.service';
 
@@ -44,6 +46,8 @@ import { MainComponent } from './pages/main/main.component';
 import { SearchComponent } from './pages/search/search.component';
 import { AdminComponent } from './pages/admin/admin.component';
 import { ShopComponent } from './pages/shop/shop.component';
+import {DataService} from "./services/data.service";
+
 
 @NgModule({
   declarations: [
@@ -74,8 +78,11 @@ import { ShopComponent } from './pages/shop/shop.component';
     MatToolbarModule,
     ReactiveFormsModule,
     MatSidenavModule,
+    SlickModule.forRoot(),
+    MatRadioModule,
     MatAutocompleteModule,
     MatCardModule,
+    MatChipsModule,
     MatSelectModule,
     MatButtonModule,
     MatIconModule,
@@ -97,7 +104,8 @@ import { ShopComponent } from './pages/shop/shop.component';
         { path: 'shop', component: ShopComponent }
     ])
    
-  ]
+  ],
+  providers: [DataService]
 })
 export class AppModuleShared {
 }
