@@ -2,27 +2,31 @@
 
     <mat-toolbar color="primary" class="">Корзина</mat-toolbar>
   
-    <div *ngIf="userItems.length > 0" class="container-fluid">
-        <ngx-slick class="carousel" #slickModal="slick-modal" [config]="slideConfig" (afterChange)="afterChange($event)">
+    <div *ngIf="userItems.length > 0 && loaded" class="container-fluid">
+        <ngx-slick class="carousel" #slickModal="slick-modal" [(config)]="slideConfig">
 
             <div ngxSlickItem class="item" *ngFor="let item of userItems">
                 <mat-card class="example-card">
                     <mat-card-header>
 
-                        <mat-card-title>{{item.title}}</mat-card-title>
-                        <mat-card-subtitle>{{item.cathegory}} </mat-card-subtitle>
+                        <mat-card-title>{{item.item.title}}</mat-card-title>
+                        <mat-card-subtitle>{{item.item.cathegory}} </mat-card-subtitle>
                     </mat-card-header>
-                    <img mat-card-image *ngIf="!item.image" src="/images/none.png" alt="{{item.title}}">
-                    <img mat-card-image *ngIf="item.image" src="data:image/png;base64,{{item.image}}" alt="{{item.title}}">
+                    <img mat-card-image *ngIf="!item.item.image" src="/images/none.png" alt="{{item.item.title}}">
+                    <img mat-card-image *ngIf="item.item.image" src="data:image/png;base64,{{item.item.image}}" alt="{{item.item.title}}">
                     <mat-card-content>
-
+                        <mat-form-field class="count-input">
+                            <input matInput type="number" placeholder="Количество" min="1" max="100" [(ngModel)]="item.count" (click)="changeData()" (blur)="changeData()" (ngModelChange)="changeData()">
+                        </mat-form-field>
+                        
                         <nav class="btn-bar nav-light">
 
                             <a href="#" class="btn-glass btn-danger">
-                                <i class="fa fa-fw fa-lg fa-times"></i>{{item.price}} грн
+                                <i class="fa fa-fw fa-lg fa-times"></i>{{item.item.price}} грн
                             </a>
 
                         </nav>
+
 
                     </mat-card-content>
                     <mat-card-actions>
@@ -34,6 +38,9 @@
 
         </ngx-slick>
     </div>
+   
+        <mat-progress-spinner *ngIf="!loaded" mode="indeterminate"></mat-progress-spinner>
+  
     <div *ngIf="userItems.length === 0">
         <div class="jumbotron jumbotron-fluid mat-elevation-z2">
             <div class="container">
@@ -41,6 +48,9 @@
                 <p class="lead">Выберите интересующие вас продукты и возвращайтесь сюда для оформления заказа.</p>
             </div>
         </div>
+    </div>
+    <div *ngIf="userItems.length !== 0" class="centered">
+        <span>Всего: {{userSum}} грн</span>
     </div>
     <br /><button type="button" mat-raised-button color="primary" class="centered" *ngIf="!showStepper && (userItems.length !== 0)" (click)="stepperActions(steps);">Оформить заказ</button>
 
@@ -51,32 +61,32 @@
                 <form [formGroup]="firstFormGroup" class="centered-content">
                     <ng-template matStepLabel>Информация о покупателе</ng-template>
                     <mat-form-field class="form-input">
-                        <input matInput placeholder="Фамилия" formControlName="surname" required>
+                        <input matInput [(ngModel)]="order.surname" placeholder="Фамилия" formControlName="surname" required>
                         <mat-error *ngFor="let validation of account_validation_messages.surname">
                             <mat-error class="error-message" *ngIf="firstFormGroup.get('surname').hasError(validation.type) && (firstFormGroup.get('surname').dirty || firstFormGroup.get('surname').touched)">{{validation.message}}</mat-error>
                         </mat-error>
                     </mat-form-field>
                     <mat-form-field class="form-input">
-                        <input matInput placeholder="Имя" formControlName="name" required>
+                        <input matInput [(ngModel)]="order.name" placeholder="Имя" formControlName="name" required>
                         <mat-error *ngFor="let validation of account_validation_messages.name">
                             <mat-error class="error-message" *ngIf="firstFormGroup.get('name').hasError(validation.type) && (firstFormGroup.get('name').dirty || firstFormGroup.get('name').touched)">{{validation.message}}</mat-error>
                         </mat-error>
                     </mat-form-field>
                     <mat-form-field class="form-input">
-                        <input matInput placeholder="Отчество" formControlName="middlename">
+                        <input matInput [(ngModel)]="order.middlename" placeholder="Отчество" formControlName="middlename">
                         <mat-error *ngFor="let validation of account_validation_messages.middlename">
                             <mat-error class="error-message" *ngIf="firstFormGroup.get('middlename').hasError(validation.type) && (firstFormGroup.get('middlename').dirty || firstFormGroup.get('middlename').touched)">{{validation.message}}</mat-error>
                         </mat-error>
                     </mat-form-field>
                     <mat-form-field class="form-input">
-                        <input matInput placeholder="Email" formControlName="email" required>
+                        <input matInput [(ngModel)]="order.email" placeholder="Email" formControlName="email" required>
                         <mat-error *ngFor="let validation of account_validation_messages.email">
                             <mat-error class="error-message" *ngIf="firstFormGroup.get('email').hasError(validation.type) && (firstFormGroup.get('email').dirty || firstFormGroup.get('email').touched)">{{validation.message}}</mat-error>
                         </mat-error>
                     </mat-form-field>
                     <mat-form-field class="form-input">
                         <span matPrefix>+380 &nbsp;</span>
-                        <input type="tel" matInput placeholder="Телефон" formControlName="phone" required>
+                        <input type="tel" matInput [(ngModel)]="order.phone" placeholder="Телефон" formControlName="phone" required>
                         <mat-icon matSuffix>mode_edit</mat-icon>
                         <mat-error *ngFor="let validation of account_validation_messages.phone">
                             <mat-error class="error-message" *ngIf="firstFormGroup.get('phone').hasError(validation.type) && (firstFormGroup.get('phone').dirty || firstFormGroup.get('phone').touched)">{{validation.message}}</mat-error>
@@ -91,7 +101,7 @@
                 <form [formGroup]="secondFormGroup" class="centered-content">
                     <ng-template matStepLabel>Информация о доставке</ng-template>
                     <mat-form-field class="form-input">
-                        <mat-select placeholder="Способ оплаты" formControlName="payVariant" required>
+                        <mat-select [(ngModel)]="order.payVariant" placeholder="Способ оплаты" formControlName="payVariant" required>
                             <mat-option *ngFor="let variant of payVariants" [value]="variant">
                                 {{ variant }}
                             </mat-option>
@@ -101,7 +111,7 @@
                         </mat-error>
                     </mat-form-field>
                     <mat-form-field class="form-input">
-                        <mat-select placeholder="Способ доставки" formControlName="deliveryVariant" required>
+                        <mat-select [(ngModel)]="order.deliveryVariant" placeholder="Способ доставки" formControlName="deliveryVariant" required>
                             <mat-option *ngFor="let dvariant of deliveryVariants" [value]="dvariant">
                                 {{ dvariant }}
                             </mat-option>
@@ -111,12 +121,12 @@
                         </mat-error>
                     </mat-form-field>
 
-                    <mat-radio-group formControlName="takeVariant" required>
+                    <mat-radio-group [(ngModel)]="order.takeVariant" formControlName="takeVariant" required>
                         <mat-radio-button value="1" checked>В отделении</mat-radio-button>
                         <mat-radio-button value="2">По адресу</mat-radio-button>
                     </mat-radio-group>
                     <mat-form-field class="form-input">
-                        <input type="text" placeholder="Город доставки" matInput formControlName="cityCtrl" [matAutocomplete]="auto">
+                        <input type="text" [(ngModel)]="order.cityCtrl" placeholder="Город доставки" matInput formControlName="cityCtrl" [matAutocomplete]="auto">
                         <mat-autocomplete #auto="matAutocomplete">
                             <mat-option *ngFor="let city of filteredOptions | async" [value]="city">
                                 {{ city }}
@@ -125,7 +135,7 @@
                     </mat-form-field>
 
                     <mat-form-field class="form-input" *ngIf="secondFormGroup.controls.takeVariant.value==1">
-                        <input type="text" placeholder="Отделение" matInput formControlName="postmail" [matAutocomplete]="autoP">
+                        <input type="text" [(ngModel)]="order.postmail" placeholder="Отделение" matInput formControlName="postmail" [matAutocomplete]="autoP">
                         <mat-autocomplete #autoP="matAutocomplete">
                             <mat-option *ngFor="let mail of filteredMails | async" [value]="mail">
                                 {{ mail }}
@@ -135,33 +145,26 @@
                     </mat-form-field>
                     <div class="form-input" *ngIf="secondFormGroup.controls.takeVariant.value==2">
                         <mat-form-field class="col">
-                            <input matInput placeholder="Улица" formControlName="street">
+                            <input matInput [(ngModel)]="order.street" placeholder="Улица" formControlName="street">
                         </mat-form-field>
                         <mat-form-field class="small-field col-2">
-                            <input matInput placeholder="Дом" formControlName="house">
+                            <input matInput [(ngModel)]="order.house" placeholder="Дом" formControlName="house">
                         </mat-form-field>
                         <mat-form-field class="small-field col-2">
-                            <input matInput placeholder="Квартира" formControlName="room">
+                            <input matInput [(ngModel)]="order.room"  placeholder="Квартира" formControlName="room">
                         </mat-form-field>
                     </div>
                     <mat-form-field class="form-input">
-                        <textarea matInput matAutosizeMinRows="5" placeholder="Ваш комментарий" formControlName="comment"></textarea>
+                        <textarea matInput [(ngModel)]="order.comment" matAutosizeMinRows="5" placeholder="Ваш комментарий" formControlName="comment"></textarea>
 
                     </mat-form-field>
                     <div>
                         <button mat-button matStepperPrevious>Назад</button>
-                        <button mat-button matStepperNext>Далее</button>
+                        <button mat-button (click)="sendOrder()">Далее</button>
                     </div>
                 </form>
             </mat-step>
-            <mat-step>
-                <ng-template matStepLabel>Готово</ng-template>
-                Благодарим за ваш заказ. Мы вскоре с вами свяжемся.
-                <!--<div>
-                    <button mat-button matStepperPrevious>Назад</button>
-                    <button mat-button (click)="stepper.reset()">Сбросить</button>
-                </div>-->
-            </mat-step>
+
         </mat-horizontal-stepper>
     </div>
 

@@ -23,6 +23,12 @@ import {MatStepperModule} from '@angular/material/stepper';
 import {MatRadioModule} from '@angular/material/radio';
 import {MatChipsModule} from '@angular/material/chips';
 import { SlickModule } from 'ngx-slick';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import {MatDividerModule} from '@angular/material/divider';
+import {MatTooltipModule} from '@angular/material/tooltip';
+
+
+
 //services
 import { ApiService } from './services/api.service';
 
@@ -68,6 +74,7 @@ import {DataService} from "./services/data.service";
     InfiniteScrollModule,
     CommonModule,
     HttpClientModule,
+    MatTooltipModule,
     ClickOutsideModule,
     MatFormFieldModule,
     MatTabsModule,
@@ -75,6 +82,8 @@ import {DataService} from "./services/data.service";
     FormsModule,
     MatInputModule,
     BrowserAnimationsModule,
+    MatProgressSpinnerModule,
+    MatDividerModule,
     MatToolbarModule,
     ReactiveFormsModule,
     MatSidenavModule,

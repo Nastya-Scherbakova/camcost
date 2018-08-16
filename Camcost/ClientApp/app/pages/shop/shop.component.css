@@ -1,8 +1,8 @@
 
 .shop-content{
-  
 
-    background-color: #fafafa;
+    text-align: center;
+    background-color: #ffffff;
   
     
 }
@@ -70,7 +70,15 @@
 .example-card img {
     width: 150px;
     height: auto;
+    display: initial;
 }
+
+.count-input {
+    width: 30%;
+    text-align: center;
+}
+
+
 
 h4 {
     justify-content: center;

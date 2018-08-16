@@ -25,6 +25,7 @@
   <ItemGroup>
     <None Remove="ClientApp\app\models\firm.model.ts" />
     <None Remove="ClientApp\app\models\item.model.ts" />
+    <None Remove="ClientApp\app\models\order.model.ts" />
     <None Remove="ClientApp\app\models\page-view.model.ts" />
     <None Remove="ClientApp\app\models\search-form.model.ts" />
     <None Remove="ClientApp\app\services\api.service.ts" />
@@ -33,6 +34,7 @@
 
   <ItemGroup>
     <TypeScriptCompile Include="ClientApp\app\models\firm.model.ts" />
+    <TypeScriptCompile Include="ClientApp\app\models\order.model.ts" />
     <TypeScriptCompile Include="ClientApp\app\models\page-view.model.ts" />
     <TypeScriptCompile Include="ClientApp\app\models\search-form.model.ts" />
     <TypeScriptCompile Include="ClientApp\app\models\item.model.ts" />

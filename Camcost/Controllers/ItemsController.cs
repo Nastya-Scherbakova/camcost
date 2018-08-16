@@ -68,7 +68,7 @@ namespace Camcost.Controllers
                 if(parametres.Count>1) items = items.Where(item => item.Cathegory == parametres[1]).ToList();
                 for (var i = 2; i < parametres.Count; i++)
                 {
-                    items = items.Where(item => item.Filters?.Contains(parametres[i]) is true).ToList();
+                   // items = items.Where(item => item.Filters?.Contains(parametres[i]) is true).ToList();
                 }
 
 
@@ -84,7 +84,7 @@ namespace Camcost.Controllers
         }
         // GET: api/Items/5
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetItem([FromRoute] Guid id)
+        public async Task<IActionResult> GetItem([FromRoute] int id)
         {
             if (!ModelState.IsValid)
             {
@@ -103,7 +103,7 @@ namespace Camcost.Controllers
 
         // PUT: api/Items/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutItem([FromRoute] Guid id, [FromBody] Item item)
+        public async Task<IActionResult> PutItem([FromRoute] int id, [FromBody] Item item)
         {
             if (!ModelState.IsValid)
             {
@@ -153,7 +153,7 @@ namespace Camcost.Controllers
 
         // DELETE: api/Items/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteItem([FromRoute] Guid id)
+        public async Task<IActionResult> DeleteItem([FromRoute] int id)
         {
             if (!ModelState.IsValid)
             {
@@ -172,7 +172,7 @@ namespace Camcost.Controllers
             return Ok(item);
         }
 
-        private bool ItemExists(Guid id)
+        private bool ItemExists(int id)
         {
             return _context.Items.Any(e => e.Id == id);
         }

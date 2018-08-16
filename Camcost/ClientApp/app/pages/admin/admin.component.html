@@ -7,7 +7,11 @@
                 <div class="logo-back">
                     <img routerLink="/main" mat-list-item src="/logo.svg" width="300" />
 
-                    <button mat-list-item class="admin-menu" (click)="changeToDo(1)" mat-button>Заказы</button>
+                    <button mat-list-item class="admin-menu" (click)="changeToDo(1)" mat-button>Заказы  
+                       
+                        <mat-chip color="warn" selected="true">{{orders?.length}}</mat-chip>
+                        
+                   </button>
                     <div routerLink="/admin/parfumes">
                         <button mat-list-item class="admin-menu" (click)="changeToDo(2)" mat-button>Работа с продуктами</button>
                     </div>
@@ -19,15 +23,88 @@
         <mat-sidenav-content>
 
             <mat-toolbar>Кабинет администратора</mat-toolbar>
-            <div *ngIf="todo==1" class="container-fluid main-cont"></div>
+            <div *ngIf="todo==1" class="container-fluid main-cont">
+
+                <mat-accordion>
+                    <mat-expansion-panel *ngFor="let order of orders">
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>
+                                {{order.surname}} {{order.name}} {{order.middlename}}
+                            </mat-panel-title>
+                            <mat-panel-description>
+                                <mat-chip-list>
+                                    <mat-chip> город {{order.cityCtrl}}</mat-chip>
+
+                                    <mat-chip color="warn" selected="true">{{order.sum}} грн</mat-chip>
+
+                                </mat-chip-list>
+
+                            </mat-panel-description>
+                        </mat-expansion-panel-header>
+                        <div class="row">
+                            <mat-list class="col">
+                                <mat-list-item>Город {{order.cityCtrl}}</mat-list-item>
+                                <mat-divider></mat-divider>
+                                <mat-list-item>{{order.sum}} грн</mat-list-item>
+                                <mat-divider></mat-divider>
+                                <mat-list-item *ngIf="order.phone">Телефон: +380{{order.phone}}</mat-list-item>
+                                <mat-divider *ngIf="order.phone"></mat-divider>
+                                <mat-list-item *ngIf="order.email">Email: {{order.email}}</mat-list-item>
+                                <mat-divider *ngIf="order.email"></mat-divider>
+
+                                <mat-list-item *ngIf="order.payVariant">Вариант оплаты: {{order.payVariant}}</mat-list-item>
+                                <mat-divider *ngIf="order.payVariant"></mat-divider>
+                                <mat-list-item *ngIf="order.deliveryVariant">Вариант доставки: {{order.deliveryVariant}}</mat-list-item>
+                                <mat-divider *ngIf="order.deliveryVariant"></mat-divider>
+                                <mat-list-item *ngIf="order.takeVariant">
+                                    Заберёт: <span *ngIf="order.takeVariant==1"> В отделении</span>
+                                    <span *ngIf="order.takeVariant==2"> По адресу</span>
+                                </mat-list-item>
+                                <mat-divider *ngIf="order.takeVariant"></mat-divider>
+                                <mat-list-item *ngIf="order.street">Улица: {{order.street}}, дом {{order.house}}, кв {{order.room}}</mat-list-item>
+                                <mat-divider *ngIf="order.street"></mat-divider>
+                                <mat-list-item *ngIf="order.postmail">Отправка: {{order.postmail}}</mat-list-item>
+                                <mat-divider *ngIf="order.postmail"></mat-divider>
+                                <mat-list-item *ngIf="order.comment">Комментарий: {{order.comment}}</mat-list-item>
+                                <mat-divider *ngIf="order.comment"></mat-divider>
+                                <div *ngFor="let item of order.items">
+                                    <mat-list-item>
+                                        <mat-chip-list>
+                                            <mat-chip>{{item.item.title}}</mat-chip>
+
+                                            <mat-chip color="warn" selected="true">{{item.item.price}}грн</mat-chip>
+                                            <mat-chip color="accent" selected="true"> {{item.count}}шт</mat-chip>
+                                        </mat-chip-list>
+
+                                    </mat-list-item>
+                                    <mat-divider></mat-divider>
+                                </div>
+
+                            </mat-list>
+                            <div class="col">
+                                <mat-form-field style="max-width: 500px; width: 100%">
+                                    
+                                    <textarea matInput style="width:100%" placeholder="Комментарий по заказу"></textarea>
+                                </mat-form-field>
+                                <mat-icon matTooltip="Данный комментарий виден только администратором и служит для ваших заметок или для информации по заказу, например:  `` Товара нет в наличии ``">info</mat-icon>
+                                <br/><button mat-raised-button color="primary">Архивировать заказ</button>
+                                <mat-icon matTooltip="Заказ обозначится как выполненый и будет храниться в базе вместе с комментарием">info</mat-icon>
+
+                            </div>
+                        </div>
+                    </mat-expansion-panel>
+                </mat-accordion>
+
+            </div>
+
             <div *ngIf="todo==2" class="container-fluid main-cont">
-               
+
                 <nav mat-tab-nav-bar>
                     <a mat-tab-link *ngFor="let option of options"
                        routerLink="../{{relocateWindow(option)}}"
                        (click)="activeLink = option"
                        [active]="activeLink == option">{{ option }}</a>
-                    
+
                 </nav>
                 <search></search>
             </div>
@@ -48,7 +125,7 @@
 
                     <br />
                     <mat-form-field style="width:250px" class="example-full-width">
-                        <input style="width:250px" matInput [formControl]="myControl" placeholder="Выберите категорию" aria-label="Number" type="text" [matAutocomplete]="auto" required />
+                        <input style="width:250px" [(ngModel)]="cathegory" matInput [formControl]="myControl" placeholder="Выберите категорию" aria-label="Number" type="text" [matAutocomplete]="auto" required />
                         <mat-autocomplete #auto="matAutocomplete">
                             <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
                                 {{ option }}
@@ -74,8 +151,8 @@
                     <br />
                     <p>
                         Если не предназначены для конкретного пола - оставьте пустыми:
-                        <br /> <mat-checkbox color="primary">Для женщин</mat-checkbox>
-                        <mat-checkbox color="warn">Для мужчин</mat-checkbox>
+                        <br /> <mat-checkbox color="primary" [(ngModel)]="gender.female" [ngModelOptions]="{standalone: true}">Для женщин</mat-checkbox>
+                        <mat-checkbox color="warn" [(ngModel)]="gender.male" [ngModelOptions]="{standalone: true}">Для мужчин</mat-checkbox>
                     </p>
                     <br /><button type="button" mat-raised-button color="primary" (click)="sendTable(file)"> Импортировать</button>
 
@@ -84,12 +161,8 @@
             </div>
 
             <!--<label>Выберите картинку</label>
-    <input type="file"  (change)="handleImageInput($event.target.files)" />
-    <br />-->
-
-
-
-
+            <input type="file"  (change)="handleImageInput($event.target.files)" />
+            <br />-->
         </mat-sidenav-content>
     </mat-sidenav-container>
 

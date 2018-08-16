@@ -11,9 +11,10 @@ using System;
 namespace Camcost.Migrations
 {
     [DbContext(typeof(ItemContext))]
-    partial class ItemContextModelSnapshot : ModelSnapshot
+    [Migration("20180722121508_ItemsImproving")]
+    partial class ItemsImproving
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -119,7 +120,7 @@ namespace Camcost.Migrations
             modelBuilder.Entity("Camcost.Models.BuyItem", b =>
                 {
                     b.HasOne("Camcost.Models.Item", "Item")
-                        .WithMany("WasBought")
+                        .WithMany()
                         .HasForeignKey("ItemId")
                         .OnDelete(DeleteBehavior.Cascade);
 

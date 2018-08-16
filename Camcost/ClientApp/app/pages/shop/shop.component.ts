@@ -11,6 +11,9 @@ import { startWith } from 'rxjs/operators/startWith';
 import { map } from 'rxjs/operators/map';
 import { Location } from '@angular/common';
 import { DataService} from "../../services/data.service";
+import {BuyItem}  from "../../models/item.model";
+import { HostListener } from "@angular/core";
+import { Order } from '../../models/order.model';
 
 
 @Component({
@@ -20,7 +23,7 @@ import { DataService} from "../../services/data.service";
 })
 export class ShopComponent {
   public showStepper:boolean = false;
-  public userItems: Array<Item>;
+  public userItems: Array<BuyItem>;
   public account_validation_messages = {
     'name': [
       { type: 'required', message: 'Введите своё имя' },
@@ -61,8 +64,9 @@ export class ShopComponent {
       
     ]
   }
-
+  public loaded: boolean = false;
   public api: ApiService;
+  public order: Order = new Order();
 
   public payVariants = [
     'Наложенный платеж',
@@ -83,8 +87,9 @@ export class ShopComponent {
   filteredOptions: Observable<string[]>;
   postmails: string[] = new Array();
   filteredMails: Observable<string[]>;
-  slideConfig = {"slidesToShow": 4, "slidesToScroll": 4};
+  public slideConfig = {"slidesToShow": 4, "slidesToScroll": 1};
   public array: [1,2,3];
+  public userSum: number = 0;
 
   public stepperActions(steps:any) {
     this.showStepper=true;
@@ -189,16 +194,75 @@ export class ShopComponent {
         startWith(''),
         map(val => this.filterMails(val))
       );
-    this.userItems = this.dataService.getData();
+ 
   }
+
+
 
   constructor(private http: HttpClient, private location: Location, private _formBuilder: FormBuilder, private dataService: DataService) {
    
-    
+    if (window.innerWidth < 1500) {
+      this.slideConfig.slidesToShow = 3;
+
+      if (window.innerWidth < 1000) {
+        this.slideConfig.slidesToShow = 2;
+
+      }
+      if (window.innerWidth < 500) {
+        this.slideConfig.slidesToShow = 1;
+
+      }
+    }
+    this.userItems = this.dataService.getData();
+    let those = this;
+    this.userItems.forEach(el=> {
+      those.userSum += el.item.price * el.count;
+    });
+    this.order.items = this.userItems;
+    this.order.sum = this.userSum;
     this.api = new ApiService(http);
     this.filter('');
     this.getMails('');
    
+  }
+
+  ngAfterViewInit() {
+    this.loaded = true; //TODO: solve the silk problem on page reloading in shop
+  }
+
+//TODO: Make it work on resizing
+ @HostListener('window:resize', ['$event'])
+ onResize(event?:any) {
+   if (window.innerWidth < 1500 && window.innerWidth>1000) {
+     this.slideConfig.slidesToShow = 3;
+
+     
+   }
+   if (window.innerWidth < 1000 && window.innerWidth > 500) {
+     this.slideConfig.slidesToShow = 2;
+
+   }
+   if (window.innerWidth < 500) {
+     this.slideConfig.slidesToShow = 1;
+
+   }
+
+ }
+
+  public changeData() {
+    let those = this;
+    this.userSum = 0;
+    this.userItems.forEach(el=> {
+      those.userSum += el.item.price * el.count;
+    });
+    this.order.sum = this.userSum;
+    this.order.items = this.userItems;
+    localStorage.setItem("userItems", JSON.stringify(this.userItems));
+  }
+
+  public sendOrder() {
+    this.api.post('api/Orders', this.order).subscribe();
+    
   }
 
 

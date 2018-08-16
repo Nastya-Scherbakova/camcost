@@ -1,7 +1,7 @@
 ﻿import { Component } from '@angular/core';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import {DataService} from "../../services/data.service";
-import {Item} from "../../models/item.model";
+import {Item, BuyItem} from "../../models/item.model";
 
 
 
@@ -12,7 +12,7 @@ import {Item} from "../../models/item.model";
 })
 export class NavMenuComponent{
 
-  public data:Array<Item>;
+  public data:Array<BuyItem>;
   constructor(private dataService: DataService) {
     
   }
@@ -53,22 +53,7 @@ export class NavMenuComponent{
   {
     id: 1, name:
     'Профессиональная техника для парикмахерских', link: '/search/hair'
-  },
-  {
-    id: 2, name:
-      'HIPO �������'
-  },
-  {
-    id: 2, name:
-      '����������� ������'
-  },
-  { id: 3, name: '������������ ������ ��������� �� ����������� �������������' },
-  { id: 3, name: '��������� �� ����� � ��������' },
-  { id: 4, name: '���������� � ��������� �� ������� ��������' },
-  { id: 4, name: '������ exe-�����' },
-  { id: 5, name: '����� ����������' },
-  { id: 5, name: '��������' }
-
+  }
   ];
   public currentId: number;
     public mainEl: boolean = false;

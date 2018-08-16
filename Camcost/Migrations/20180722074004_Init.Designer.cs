@@ -11,9 +11,10 @@ using System;
 namespace Camcost.Migrations
 {
     [DbContext(typeof(ItemContext))]
-    partial class ItemContextModelSnapshot : ModelSnapshot
+    [Migration("20180722074004_Init")]
+    partial class Init
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -49,11 +50,9 @@ namespace Camcost.Migrations
 
                     b.Property<string>("Cathegory");
 
-                    b.Property<string>("Country");
+                    b.Property<string>("Filters");
 
-                    b.Property<string>("FilterNamesString");
-
-                    b.Property<string>("FilterValuesString");
+                    b.Property<string>("FiltersNames");
 
                     b.Property<string>("Firm");
 
@@ -62,8 +61,6 @@ namespace Camcost.Migrations
                     b.Property<byte[]>("Image");
 
                     b.Property<double>("Price");
-
-                    b.Property<string>("SubcathegoriesString");
 
                     b.Property<string>("Title");
 
@@ -119,7 +116,7 @@ namespace Camcost.Migrations
             modelBuilder.Entity("Camcost.Models.BuyItem", b =>
                 {
                     b.HasOne("Camcost.Models.Item", "Item")
-                        .WithMany("WasBought")
+                        .WithMany()
                         .HasForeignKey("ItemId")
                         .OnDelete(DeleteBehavior.Cascade);
 

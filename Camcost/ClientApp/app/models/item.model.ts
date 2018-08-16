@@ -1,6 +1,6 @@
 ﻿
 export class Item {
-  id: string;
+  id: number;
   title: string;
   gender: number;
   cathegory: string;
@@ -8,5 +8,13 @@ export class Item {
   firm: string;
   price: number;
   image: ByteString;
+  
+}
+
+export class BuyItem {
+  id: number;
+  item: Item;
+  itemId: number;
+  count: number;
   
 }
