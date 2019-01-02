@@ -40,6 +40,22 @@ namespace Camcost.Migrations
                     b.ToTable("BuyItems");
                 });
 
+            modelBuilder.Entity("Camcost.Models.Image", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<byte[]>("ByteImage");
+
+                    b.Property<int?>("ItemId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ItemId");
+
+                    b.ToTable("Images");
+                });
+
             modelBuilder.Entity("Camcost.Models.Item", b =>
                 {
                     b.Property<int>("Id")
@@ -59,9 +75,13 @@ namespace Camcost.Migrations
 
                     b.Property<int>("Gender");
 
-                    b.Property<byte[]>("Image");
+                    b.Property<int>("OptMinCount");
 
-                    b.Property<double>("Price");
+                    b.Property<decimal>("OptPrice");
+
+                    b.Property<decimal>("Price");
+
+                    b.Property<int>("SalePercent");
 
                     b.Property<string>("SubcathegoriesString");
 
@@ -126,6 +146,13 @@ namespace Camcost.Migrations
                     b.HasOne("Camcost.Models.Order")
                         .WithMany("Items")
                         .HasForeignKey("OrderId");
+                });
+
+            modelBuilder.Entity("Camcost.Models.Image", b =>
+                {
+                    b.HasOne("Camcost.Models.Item")
+                        .WithMany("Images")
+                        .HasForeignKey("ItemId");
                 });
 #pragma warning restore 612, 618
         }

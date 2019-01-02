@@ -136,7 +136,7 @@ div.containerr a {
 }
 
 .vertical-mdl-tabs.mdl-tabs.is-upgraded div.mdl-tabs__tab.is-active {
-    border-right: 3px solid #A90D0D;
+    border-right: 3px solid #3f51b5;
 }
 
 .vertical-mdl-tabs.mdl-tabs.is-upgraded .mdl-tabs__tab.is-active:after {
@@ -164,7 +164,7 @@ div.containerr a {
 }
 
 .mdl-tabs.is-upgraded .mdl-tabs__tab.is-active {
-    color: #a90d0d;
+    color: #3f51b5;
 }
 
 nav {

@@ -1,8 +1,8 @@
-<div class="shop-content container-fluid">
+<div class="shop-content container-fluid row">
 
-    <mat-toolbar color="primary" class="">Корзина</mat-toolbar>
-  
-    <div *ngIf="userItems.length > 0 && loaded" class="container-fluid">
+
+
+    <!--<div *ngIf="userItems.length > 0 && loaded" class="container-fluid">
         <ngx-slick class="carousel" #slickModal="slick-modal" [(config)]="slideConfig">
 
             <div ngxSlickItem class="item" *ngFor="let item of userItems">
@@ -18,7 +18,7 @@
                         <mat-form-field class="count-input">
                             <input matInput type="number" placeholder="Количество" min="1" max="100" [(ngModel)]="item.count" (click)="changeData()" (blur)="changeData()" (ngModelChange)="changeData()">
                         </mat-form-field>
-                        
+
                         <nav class="btn-bar nav-light">
 
                             <a href="#" class="btn-glass btn-danger">
@@ -30,32 +30,17 @@
 
                     </mat-card-content>
                     <mat-card-actions>
-                        <button mat-button><mat-icon style="color:#A90D0D">delete</mat-icon>Удалить</button>
-                        <button mat-button><mat-icon style="color:#A90D0D">subject</mat-icon>Подробнее</button>
+                        <button mat-button><mat-icon style="color:#3f51b5">delete</mat-icon>Удалить</button>
+                        <button mat-button><mat-icon style="color:#3f51b5">subject</mat-icon>Подробнее</button>
                     </mat-card-actions>
                 </mat-card>
             </div>
 
         </ngx-slick>
-    </div>
-   
-        <mat-progress-spinner *ngIf="!loaded" mode="indeterminate"></mat-progress-spinner>
-  
-    <div *ngIf="userItems.length === 0">
-        <div class="jumbotron jumbotron-fluid mat-elevation-z2">
-            <div class="container">
-                <h1 class="display-4">В вашей корзине нет товара</h1>
-                <p class="lead">Выберите интересующие вас продукты и возвращайтесь сюда для оформления заказа.</p>
-            </div>
-        </div>
-    </div>
-    <div *ngIf="userItems.length !== 0" class="centered">
-        <span>Всего: {{userSum}} грн</span>
-    </div>
-    <br /><button type="button" mat-raised-button color="primary" class="centered" *ngIf="!showStepper && (userItems.length !== 0)" (click)="stepperActions(steps);">Оформить заказ</button>
+    </div>-->
 
-    <div #steps>
-        <mat-horizontal-stepper *ngIf="showStepper" [linear]="true" #stepper="matHorizontalStepper">
+    <div class="col mat-elevation-z2" #steps>
+        <mat-horizontal-stepper [linear]="true" #stepper="matHorizontalStepper">
             <mat-step [stepControl]="firstFormGroup">
 
                 <form [formGroup]="firstFormGroup" class="centered-content">
@@ -85,11 +70,12 @@
                         </mat-error>
                     </mat-form-field>
                     <mat-form-field class="form-input">
-                        <span matPrefix>+380 &nbsp;</span>
+
                         <input type="tel" matInput [(ngModel)]="order.phone" placeholder="Телефон" formControlName="phone" required>
-                        <mat-icon matSuffix>mode_edit</mat-icon>
+
                         <mat-error *ngFor="let validation of account_validation_messages.phone">
-                            <mat-error class="error-message" *ngIf="firstFormGroup.get('phone').hasError(validation.type) && (firstFormGroup.get('phone').dirty || firstFormGroup.get('phone').touched)">{{validation.message}}</mat-error>
+                            <mat-error class="error-message"
+                                       *ngIf="firstFormGroup.get('phone').hasError(validation.type) && (firstFormGroup.get('phone').dirty || firstFormGroup.get('phone').touched)">{{validation.message}}</mat-error>
                         </mat-error>
                     </mat-form-field>
                     <div>
@@ -151,7 +137,7 @@
                             <input matInput [(ngModel)]="order.house" placeholder="Дом" formControlName="house">
                         </mat-form-field>
                         <mat-form-field class="small-field col-2">
-                            <input matInput [(ngModel)]="order.room"  placeholder="Квартира" formControlName="room">
+                            <input matInput [(ngModel)]="order.room" placeholder="Квартира" formControlName="room">
                         </mat-form-field>
                     </div>
                     <mat-form-field class="form-input">
@@ -160,13 +146,74 @@
                     </mat-form-field>
                     <div>
                         <button mat-button matStepperPrevious>Назад</button>
-                        <button mat-button (click)="sendOrder()">Далее</button>
+                        <button mat-button (click)="sendOrder()">Готово</button>
                     </div>
                 </form>
             </mat-step>
 
         </mat-horizontal-stepper>
     </div>
+
+    
+
+    <div class="example-containerr col ">
+
+
+        <mat-table #table [dataSource]="dataSource">
+
+            <ng-container matColumnDef="photo">
+                <mat-header-cell *matHeaderCellDef>  </mat-header-cell>
+                <mat-cell *matCellDef="let element">
+                    <img width="120px" *ngIf="!element.item.image" src="/images/none.png" alt="{{element.item.title}}">
+                    <img *ngIf="element.item.image" src="data:image/png;base64,{{element.item.image}}" alt="{{element.item.title}}">
+                </mat-cell>
+            </ng-container>
+
+
+            <ng-container matColumnDef="title">
+                <mat-header-cell *matHeaderCellDef>  </mat-header-cell>
+                <mat-cell *matCellDef="let element">
+                    {{element.item.title}}<br />
+                    <small> {{element.item.cathegory}}</small>
+                </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="count">
+                <mat-header-cell *matHeaderCellDef>  </mat-header-cell>
+                <mat-cell *matCellDef="let element">
+                    <mat-form-field class="count-input">
+                        <input matInput type="number" placeholder="Количество" min="1" max="100" [(ngModel)]="element.count" (click)="changeData()" (blur)="changeData()" (ngModelChange)="changeData()">
+                    </mat-form-field>
+                </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="price">
+                <mat-header-cell *matHeaderCellDef>  </mat-header-cell>
+                <mat-cell *matCellDef="let element"> {{element.item.price}} грн </mat-cell>
+            </ng-container>
+
+
+            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+        </mat-table>
+    </div>
+
+
+
+    <div *ngIf="userItems.length === 0">
+        <div class="jumbotron jumbotron-fluid mat-elevation-z2">
+            <div class="container">
+                <h1 class="display-4">В вашей корзине нет товара</h1>
+                <p class="lead">Выберите интересующие вас продукты и возвращайтесь сюда для оформления заказа.</p>
+            </div>
+        </div>
+    </div>
+    <!--<div *ngIf="userItems.length !== 0" class="centered">
+        <span>Всего: {{userSum}} грн</span>
+    </div>-->
+
+
+
 
 
 </div>

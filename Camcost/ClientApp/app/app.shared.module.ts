@@ -26,11 +26,13 @@ import { SlickModule } from 'ngx-slick';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatDividerModule} from '@angular/material/divider';
 import {MatTooltipModule} from '@angular/material/tooltip';
+import {MatTableModule} from '@angular/material/table';
 
 
 
 //services
 import { ApiService } from './services/api.service';
+import {DataService} from "./services/data.service";
 
 //components
 import { AppComponent } from './components/app/app.component';
@@ -43,8 +45,9 @@ import { Item } from './models/item.model';
 
 import { PageViewModel } from './models/page-view.model';
 
-//pages
+//pages 
 import { AboutComponent } from './pages/about/about.component';
+import { DetailsComponent } from './pages/details/details.component';
 import { BlogComponent } from './pages/blog/blog.component';
 import { DeliveryComponent } from './pages/delivery/delivery.component';
 import { SalesComponent } from './pages/sales/sales.component';
@@ -52,7 +55,10 @@ import { MainComponent } from './pages/main/main.component';
 import { SearchComponent } from './pages/search/search.component';
 import { AdminComponent } from './pages/admin/admin.component';
 import { ShopComponent } from './pages/shop/shop.component';
-import {DataService} from "./services/data.service";
+import { ItemsService } from './services/items.service';
+
+
+
 
 
 @NgModule({
@@ -61,6 +67,7 @@ import {DataService} from "./services/data.service";
     NavMenuComponent,
     ItemsComponent,
     FooterComponent,
+    DetailsComponent,
     AboutComponent,
     BlogComponent,
     DeliveryComponent,
@@ -81,6 +88,7 @@ import {DataService} from "./services/data.service";
     HttpModule,
     FormsModule,
     MatInputModule,
+    MatTableModule,
     BrowserAnimationsModule,
     MatProgressSpinnerModule,
     MatDividerModule,
@@ -103,6 +111,7 @@ import {DataService} from "./services/data.service";
       { path: '', redirectTo: '/main', pathMatch: 'full' },
 
       { path: 'main', component: MainComponent },
+      { path: 'details/:id', component: DetailsComponent },
       { path: 'about', component: AboutComponent },
       { path: 'blog', component: BlogComponent },
       { path: 'delivery', component: DeliveryComponent },
@@ -114,7 +123,8 @@ import {DataService} from "./services/data.service";
     ])
    
   ],
-  providers: [DataService]
+  providers: [DataService, ItemsService]
 })
 export class AppModuleShared {
+
 }

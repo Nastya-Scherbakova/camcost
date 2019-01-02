@@ -44,8 +44,11 @@ namespace Camcost.Models
         public Gender Gender { get; set; }
         public string About { get; set; }
         public string Firm { get; set; }
-        public byte[] Image { get; set; }
-        public double Price { get; set; }
+        public virtual IEnumerable<Image> Images { get; set; } = new List<Image>();
+        public int SalePercent { get; set; }
+        public decimal OptPrice { get; set; }
+        public int OptMinCount { get; set; }
+        public decimal Price { get; set; }
         public virtual IEnumerable<BuyItem> WasBought { get; set; } = new List<BuyItem>();
 
     }
@@ -64,6 +67,7 @@ namespace Camcost.Models
         public DbSet<Item> Items { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<BuyItem> BuyItems { get; set; }
+        public DbSet<Image> Images { get; set; }
 
         public ItemContext(DbContextOptions<ItemContext> options)
            : base(options)

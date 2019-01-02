@@ -1,7 +1,11 @@
 ﻿import { Component } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import {DataService} from "../../services/data.service";
 import {Item, BuyItem} from "../../models/item.model";
+import { ItemsService } from '../../services/items.service';
+import { Subscriber } from 'rxjs/Subscriber';
+import { Subscription } from 'rxjs/Subscription';
 
 
 
@@ -12,12 +16,18 @@ import {Item, BuyItem} from "../../models/item.model";
 })
 export class NavMenuComponent{
 
-  public data:Array<BuyItem>;
-  constructor(private dataService: DataService) {
+  public data:number;
+  private subscribeItems: Subscription;
+  public searchString: string;
+  constructor(private dataService: DataService, private http: HttpClient, private itemsService: ItemsService) {
+     this.data = this.dataService.itemCount;
+    this.subscribeItems = this.dataService.getCount().subscribe(next => {this.data = next;});
     
   }
   ngOnInit() {
-    this.data = this.dataService.getData();
+    this.http.get("/files/cathegories.json").subscribe((data:any) => {
+      this.smallerNav = data.cathegories;
+    });
  
   }
   fillerNav = [{
@@ -34,27 +44,7 @@ export class NavMenuComponent{
 
   ];
 
-  smallerNav = [{
-    id: 1, name:
-    'Парфюмерия', link:'/search/parfumes'
-  },
-  {
-    id: 1, name:
-    'Косметика', link: '/search/cosmetics'
-    },
-  {
-    id: 1, name:
-    'Средства для стирки', link: '/search/wash'
-  },
-  {
-    id: 1, name:
-    'Уход за телом', link: '/search/bodycare'
-  },
-  {
-    id: 1, name:
-    'Профессиональная техника для парикмахерских', link: '/search/hair'
-  }
-  ];
+  public smallerNav = [];
   public currentId: number;
     public mainEl: boolean = false;
     public aboutEl: boolean = false;
@@ -94,6 +84,10 @@ export class NavMenuComponent{
             if (el === "actions") if (!those.hold) those.actionsEl = false;
             if (el === "posts") if (!those.hold) those.postsEl = false;
     }, 200);
+    }
+    public searchItems() {
+      this.itemsService.search(this.searchString);
+
     }
 
 }

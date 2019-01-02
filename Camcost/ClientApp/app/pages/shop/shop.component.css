@@ -1,10 +1,44 @@
 
 .shop-content{
-
+    margin-left: 10px;
     text-align: center;
     background-color: #ffffff;
   
     
+}
+.col{
+    margin-bottom: 50px;
+}
+.example-containerr {
+
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+}
+
+.example-header {
+    min-height: 64px;
+    padding: 8px 24px 0;
+}
+.mat-row{
+    height: 150px;
+}
+    .mat-row:hover {
+        box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.19);
+        transition: all 0.3s;
+    }
+
+small{
+    color: #9e9e9e;
+}
+.mat-header-row{
+    height: 0;
+    min-height: 0;
+}
+
+.mat-table {
+    overflow: auto;
+    max-height: 500px;
 }
 .centered-content{
     margin: 0 auto;
@@ -180,21 +214,21 @@ h4 {
 
         .nav-light .btn-glass.btn-danger:hover {
             color: rgba(255, 255, 255, 0.7);
-            border-color: #aa180b;
-            background-color: #cc2020;
+            border-color: #3f51b5;
+            background-color: #3f51b5;
         }
 
         .nav-light .btn-glass.btn-danger:active {
             color: rgba(255, 255, 255, 0.7);
-            border-color: #aa180b;
-            background-color: #cc2020;
+            border-color: #3f51b5;
+            background-color: #3f51b5;
             box-shadow: none;
         }
 
         .nav-light .btn-glass.btn-danger:focus {
             color: rgba(255, 255, 255, 0.7);
-            border-color: #aa180b;
-            background-color: #cc2020;
+            border-color: #3f51b5;
+            background-color: #3f51b5;
             box-shadow: none;
         }
 

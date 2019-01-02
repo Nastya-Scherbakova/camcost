@@ -109,30 +109,31 @@ h4 {
 
 .nav-light {
     background-color: rgb(234, 234, 234);
-    
+    border-radius: 30px;
 }
 
     .nav-light .btn-glass.btn-danger {
         color: #000;
         background-color: rgba(240, 35, 17, 0);
+        border-radius: 30px;
     }
 
         .nav-light .btn-glass.btn-danger:hover {
             color: rgba(255, 255, 255, 0.7);
-            border-color: #aa180b;
-            background-color: #cc2020;
+            border-color: #3f51b5;
+            background-color: #3f51b5;
         }
 
         .nav-light .btn-glass.btn-danger:active {
             color: rgba(255, 255, 255, 0.7);
-            border-color: #aa180b;
-            background-color: #cc2020;
+            border-color: #3f51b5;
+            background-color: #3f51b5;
             box-shadow: none;
         }
         .nav-light .btn-glass.btn-danger:focus {
             color: rgba(255, 255, 255, 0.7);
-            border-color: #aa180b;
-            background-color: #cc2020;
+            border-color: #3f51b5;
+            background-color: #3f51b5;
             box-shadow: none;
         }
 

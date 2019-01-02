@@ -1,0 +1,111 @@
+﻿{
+  "subCathegories": [
+    {
+      "id": 100,
+      "title": "Оригинал",
+      "checked": false,
+      "father": 1
+    },
+    {
+      "id": 101,
+      "title": "Тестер (ОАЭ)",
+      "checked": false,
+      "father": 1
+    },
+    {
+      "id": 200,
+      "title": "25 мл",
+      "checked": false,
+      "father": 101
+    },
+     {
+      "id": 201,
+      "title": "40 мл",
+      "checked": false,
+      "father": 101
+    },
+      {
+      "id": 202,
+      "title": "50 мл",
+      "checked": false,
+      "father": 101
+    },
+     {
+       "id": 203,
+      "title": "В чехлах",
+      "checked": false,
+      "father": 101
+    },
+     {
+       "id": 204,
+      "title": "На блистере",
+      "checked": false,
+      "father": 101
+    },
+     {
+       "id": 205,
+      "title": "С феромонами",
+      "checked": false,
+      "father": 101
+    },
+     {
+       "id": 206,
+      "title": "Наборы 3в1",
+      "checked": false,
+      "father": 101
+    },
+      {
+        "id": 207,
+      "title": "Мини-парфюмерия",
+      "checked": false,
+      "father": 101
+    },
+      {
+        "id": 208,
+      "title": "Парфюмерные масла",
+      "checked": false,
+      "father": 101
+    },
+      {
+        "id": 102,
+      "title": "Пилки для ногтей",
+      "checked": false,
+      "father": 4
+    },
+    {
+      "id": 103,
+      "title": "Крем",
+      "checked": false,
+      "father": 4
+    },
+     {
+       "id": 104,
+      "title": "Бальзам",
+      "checked": false,
+      "father": 4
+    },
+     {
+       "id": 105,
+      "title": "Гель",
+      "checked": false,
+      "father": 4
+    },
+      {
+        "id": 106,
+      "title": "Жидкое мыло",
+      "checked": false,
+      "father": 4
+    },
+       {
+         "id": 107,
+      "title": "Лосьон",
+      "checked": false,
+      "father": 4
+    },{
+        "id": 108,
+      "title": "Наборы 4в1",
+      "checked": false,
+      "father": 4
+    }
+
+  ] }

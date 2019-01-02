@@ -1,0 +1,33 @@
+﻿{
+  "cathegories": [{
+    "id": 1,          
+    "menuId": 1, 
+    "name": "Парфюмерия", 
+    "link": "/search/parfumes"
+  },
+  {
+    "id": 2,
+    "menuId": 1,
+    "name": "Косметика",
+    "link": "/search/cosmetics"
+    },
+  {
+    "id": 3,
+    "menuId": 1,
+    "name": "Средства для стирки", 
+    "link": "/search/wash"
+  },
+  {
+    "id": 4,
+    "menuId": 1,
+    "name": "Уход за телом", 
+    "link": "/search/bodycare"
+  },
+  {
+    "id": 5,
+    "menuId": 1,
+    "name":"Профессиональная техника для парикмахерских", 
+    "link": "/search/hair"
+  }
+  ]
+}

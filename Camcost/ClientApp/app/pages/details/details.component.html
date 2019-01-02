@@ -1,0 +1,64 @@
+
+<div class="container details">
+    <div class="item-details">
+        <div class="item-details__info container" *ngIf="item">
+            <div class="item-details__photos" *ngIf="item.item">
+                <div class="item-details__photo" *ngIf="item.item">
+                    <img *ngIf="item.item.images.length===0" src="/images/none.png" alt="{{item.item.title}}">
+                    <img *ngIf="item.item.images.length>0" src="data:image/png;base64,{{item.item.images[0].byteImage}}" alt="{{item.item.title}}">
+                </div>
+                   
+                    <div class="item-details__gallery" *ngIf="item.item && item.item.images.length>0">
+
+
+                    </div>
+                </div>
+            <div class="item-details__text" *ngIf="item.item">
+                <p>{{item.item.title}}</p>
+                <span>{{item.item.cathegory}}</span>
+                <div class="price">{{item.item.price}} грн</div>
+                <div class="count">
+                    <mat-form-field class="count-input">
+                        <input matInput type="number" placeholder="Количество" min="1" max="100" [(ngModel)]="item.count" (click)="changeData()" (blur)="changeData()" (ngModelChange)="changeData()">
+                    </mat-form-field>
+                </div>
+                <button mat-button class="to-basket" (click)="addUserItem(item)"><mat-icon style="color:#fff">loyalty</mat-icon>Добавить в корзину </button>
+                <ul>
+                    <li>
+                        <input type="checkbox">
+                        <i></i>
+                        <h2>Описание</h2>
+                        <div class="accordion-p" [innerHTML]="item.item.about"></div>
+                    </li>
+                    <li>
+                        <input type="checkbox">
+                        <i></i>
+                        <h2>Характеристика</h2>
+                        <div class="accordion-p">
+                            <div class="row" *ngIf="item.item.country.length>0">
+                                <div class="col">Страна:</div>
+                                <div class="col">{{item.item.country}}</div>
+                            </div>
+                            <div class="row" *ngIf="item.item.firm.length>0">
+                                <div class="col">Фирма:</div>
+                                <div class="col">{{item.item.firm}}</div>
+                            </div>
+
+                            <div class="row" *ngFor="let filter of item.item.filterNames; let i = index">
+                                <div class="col" *ngIf="item.item.filterValues[i].length>0">{{filter}}:</div>
+                                <div class="col" *ngIf="item.item.filterValues[i].length>0">{{item.item.filterValues[i]}}</div>
+                            </div>
+                        </div>
+                    </li>
+                   
+                </ul>
+
+            </div>
+
+
+
+            </div>
+
+    </div>
+    
+</div>

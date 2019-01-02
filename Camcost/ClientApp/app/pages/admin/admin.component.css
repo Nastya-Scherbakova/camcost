@@ -1,4 +1,10 @@
-
+a {
+    text-decoration: none;
+}
+    a:hover {
+        color: #3f51b5;
+        opacity: .8;
+    }
 .admin-content{
     position: absolute;
     top:0;

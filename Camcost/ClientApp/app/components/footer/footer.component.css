@@ -1,5 +1,8 @@
 .footer {
     display: block;
+    position: absolute;
+    bottom: 0;
+    width:100%;
     justify-content: center;
     text-align: center;
     background-color: rgb(240, 240, 240);
@@ -22,12 +25,11 @@
     }
 
         .contacts a:hover {
-            color: #A90D0D;
+            color: #3f51b5;
         }
 h4 {
-    color: rgb(169, 13, 13);
+    color: #3f50b5;
     font-family: "Century Gothic";
-   
 }
 @media (max-width:600px){
     .contacts {

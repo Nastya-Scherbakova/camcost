@@ -30,6 +30,7 @@
     <None Remove="ClientApp\app\models\search-form.model.ts" />
     <None Remove="ClientApp\app\services\api.service.ts" />
     <None Remove="ClientApp\app\services\data.service.ts" />
+    <None Remove="ClientApp\app\services\items.service.ts" />
   </ItemGroup>
 
   <ItemGroup>
@@ -39,6 +40,7 @@
     <TypeScriptCompile Include="ClientApp\app\models\search-form.model.ts" />
     <TypeScriptCompile Include="ClientApp\app\models\item.model.ts" />
     <TypeScriptCompile Include="ClientApp\app\services\api.service.ts" />
+    <TypeScriptCompile Include="ClientApp\app\services\items.service.ts" />
     <TypeScriptCompile Include="ClientApp\app\services\data.service.ts" />
   </ItemGroup>
 

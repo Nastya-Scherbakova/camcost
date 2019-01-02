@@ -18,6 +18,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Internal;
 using Newtonsoft.Json;
 
+
 namespace Camcost.Controllers
 {
     [Route("api/[controller]")]
@@ -80,7 +81,7 @@ namespace Camcost.Controllers
                     {
                         if (sheet.Cells[j, 1].Value == null)
                             {
-                            sbSql.AppendFormat(@"INSERT INTO [CamcostDB].[dbo].[Items] ([About],[Price],[Title],[Firm],[Cathegory],[Gender],[Subcathegories],[FilterNames],[FilterValues]) VALUES ('{0}', '{1}' , {2} , '{3}', '{4}', '{5}', '{6}' );", GV(sheet, j, 4), GVDouble(sheet, j, 6), GV(sheet, j, 2), GV(sheet, j, 22), cathegory, gender, subcathJson);
+                            sbSql.AppendFormat(@"INSERT INTO [CamcostDB].[dbo].[Items] ([About],[Price],[Title],[Firm],[Cathegory],[Gender],[Subcathegories],[FilterNames],[FilterValues]) VALUES ('{0}', '{1}' , {2} , '{3}', '{4}', '{5}', '{6}' );", GV(sheet, j, 4), GVDecimal(sheet, j, 6), GV(sheet, j, 2), GV(sheet, j, 22), cathegory, gender, subcathJson);
                             LastUploadCount++;
                             }
                         }
@@ -153,24 +154,44 @@ namespace Camcost.Controllers
                     {
                         if (sheet.Cells[j, 1].Value == null)
                             {
-                            Item item = new Item()
+                            
+                            //TODO: make shoure this condition is right (title, firm, gender) or smth else
+                            try
+                            {
+                                Item item = new Item()
                             {
                                 About = GV(sheet, j, 4),
-                                Price = GVDouble(sheet, j, 6),
+                                Price = GVDecimal(sheet, j, 6),
                                 Title = GV(sheet, j, 2),
                                 Firm = GV(sheet, j, 25),
                                 Cathegory = cathegory,
+                                SalePercent = GVInt(sheet, j, 28),
+                                OptPrice = GVDecimal(sheet, j, 10),
+                                OptMinCount = GVInt(sheet, j, 11),
                                 Gender = g,
                                 Subcathegories = subcath,
                                 FilterNames = GetFilterNames(sheet, j),
                                 FilterValues = GetFilterValues(sheet, j),
                                 Country = GV(sheet, j, 27)
                             };
-                                //TODO: make shoure this condition is right (title, firm, gender) or smth else
                                 var exist = await _context.Items.AnyAsync(el =>
                                     el.Title == item.Title && el.Firm == item.Firm && el.Gender == item.Gender);
-                                if (exist) _context.Entry(item).State = EntityState.Modified;
+                                if (exist){ 
+                                    var oldItem = _context.Items.AsNoTracking().SingleOrDefault(el=> el.Title == item.Title && el.Firm == item.Firm);
+                                    item.Id = oldItem.Id;
+                                    //oldItem = item;
+                                    //_context.Items.Update(item);
+                                    // _context.SaveChanges();
+                                    _context.Entry(item).State = EntityState.Modified;
+                                    _context.SaveChanges();
+                                } 
                                 else items.Add(item);
+                            }
+                            catch(Exception ex)
+                            {
+                                throw ex;
+                            }
+                                
                                     
 
                             }
@@ -203,27 +224,43 @@ namespace Camcost.Controllers
 
         private List<string> GetFilterValues(ExcelWorksheet sheet, int rowNo)
         {
-            StringBuilder sb = new StringBuilder();
+           
             List<string> result=new List<string>();
             for (int i = 32; i < sheet.Dimension.End.Column; i += 3)
             {
                 if (sheet.Cells[rowNo, i + 1].Value != null)
                 {
+                    StringBuilder sb = new StringBuilder();
                     sb.AppendFormat(@"{0} {1}", sheet.Cells[rowNo, i + 1].Value.ToString(),
                         sheet.Cells[rowNo, i].Value.ToString());
                     string res = sheet.Cells[rowNo, i].Value != null
                         ? sb.ToString()
                         : sheet.Cells[rowNo, i + 1].Value.ToString();
+                    
                     result.Add(res);
                 }
             }
-
+            
             return result;
         }
 
-        private double GVDouble(ExcelWorksheet sheet, int rowNo, int cellNo)
+        private decimal GVDecimal(ExcelWorksheet sheet, int rowNo, int cellNo)
         {
-            return sheet.Cells[rowNo, cellNo].Value != null ? Double.Parse(sheet.Cells[rowNo, cellNo].Value.ToString()) : 0;
+            decimal result = 0;
+
+             if(sheet.Cells[rowNo, cellNo].Value != null) decimal.TryParse(sheet.Cells[rowNo, cellNo].Value.ToString(), out result);
+            return result;
+        }
+         private int GVInt(ExcelWorksheet sheet, int rowNo, int cellNo)
+        {
+            int result=0;
+            
+            if(sheet.Cells[rowNo, cellNo].Value != null)
+            {
+                Int32.TryParse(sheet.Cells[rowNo, cellNo].Value?.ToString(), out result);
+            }
+            
+            return result;
         }
         private string GV(ExcelWorksheet sheet, int rowNo, int cellNo)
         {

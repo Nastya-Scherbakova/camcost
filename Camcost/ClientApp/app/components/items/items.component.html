@@ -8,14 +8,14 @@
     
      [infiniteScrollDisabled]="isFullListDisplayed">
         <div class="item" *ngFor="let item of items">
-            <mat-card class="example-card">
+            <mat-card class="example-card" *ngIf="item">
                 <mat-card-header>
 
                     <mat-card-title>{{item.title}}</mat-card-title>
                     <mat-card-subtitle>{{item.cathegory}} </mat-card-subtitle>
                 </mat-card-header>
-                <img mat-card-image *ngIf="!item.image" src="/images/none.png" alt="{{item.title}}">
-                <img mat-card-image *ngIf="item.image" src="data:image/png;base64,{{item.image}}" alt="{{item.title}}">
+                <img mat-card-image *ngIf="item.images.length===0" src="/images/none.png" alt="{{item.title}}">
+                <img mat-card-image *ngIf="item.images.length>0" src="data:image/png;base64,{{item.images[0].byteImage}}" alt="{{item.title}}">
                 <mat-card-content>
 
                     <nav class="btn-bar nav-light">
@@ -28,8 +28,9 @@
 
                 </mat-card-content>
                 <mat-card-actions>
-                    <button mat-button (click)="addUserItem(item)"><mat-icon style="color:#A90D0D">loyalty</mat-icon>В корзину </button>
-                    <button mat-button><mat-icon style="color:#A90D0D">subject</mat-icon>Подробнее</button>
+                    <button mat-button (click)="addUserItem(item)" *ngIf="itemsInBox.indexOf(item)==-1"><mat-icon style="color:#3f51b5">loyalty</mat-icon>В корзину </button>
+                    <button mat-button (click)="addUserItem(item)" *ngIf="itemsInBox.indexOf(item)!=-1" disabled><mat-icon style="color:rgba(0, 0, 0, 0.26)">loyalty</mat-icon>В корзине </button>
+                    <button mat-button routerLink="/details/{{item.id}}"><mat-icon>subject</mat-icon>Подробнее</button>
                 </mat-card-actions>
             </mat-card>
         </div>

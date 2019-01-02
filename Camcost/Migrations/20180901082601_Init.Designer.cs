@@ -11,7 +11,7 @@ using System;
 namespace Camcost.Migrations
 {
     [DbContext(typeof(ItemContext))]
-    [Migration("20180722074004_Init")]
+    [Migration("20180901082601_Init")]
     partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -41,6 +41,22 @@ namespace Camcost.Migrations
                     b.ToTable("BuyItems");
                 });
 
+            modelBuilder.Entity("Camcost.Models.Image", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<byte[]>("ByteImage");
+
+                    b.Property<int?>("ItemId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ItemId");
+
+                    b.ToTable("Images");
+                });
+
             modelBuilder.Entity("Camcost.Models.Item", b =>
                 {
                     b.Property<int>("Id")
@@ -50,17 +66,25 @@ namespace Camcost.Migrations
 
                     b.Property<string>("Cathegory");
 
-                    b.Property<string>("Filters");
+                    b.Property<string>("Country");
 
-                    b.Property<string>("FiltersNames");
+                    b.Property<string>("FilterNamesString");
+
+                    b.Property<string>("FilterValuesString");
 
                     b.Property<string>("Firm");
 
                     b.Property<int>("Gender");
 
-                    b.Property<byte[]>("Image");
+                    b.Property<int>("OptMinCount");
 
-                    b.Property<double>("Price");
+                    b.Property<decimal>("OptPrice");
+
+                    b.Property<decimal>("Price");
+
+                    b.Property<int>("SalePercent");
+
+                    b.Property<string>("SubcathegoriesString");
 
                     b.Property<string>("Title");
 
@@ -116,13 +140,20 @@ namespace Camcost.Migrations
             modelBuilder.Entity("Camcost.Models.BuyItem", b =>
                 {
                     b.HasOne("Camcost.Models.Item", "Item")
-                        .WithMany()
+                        .WithMany("WasBought")
                         .HasForeignKey("ItemId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("Camcost.Models.Order")
                         .WithMany("Items")
                         .HasForeignKey("OrderId");
+                });
+
+            modelBuilder.Entity("Camcost.Models.Image", b =>
+                {
+                    b.HasOne("Camcost.Models.Item")
+                        .WithMany("Images")
+                        .HasForeignKey("ItemId");
                 });
 #pragma warning restore 612, 618
         }

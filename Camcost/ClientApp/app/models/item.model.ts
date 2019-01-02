@@ -4,11 +4,23 @@ export class Item {
   title: string;
   gender: number;
   cathegory: string;
+  subcathegories: Array<string>;
+  filterValues: Array<string>;
+  filterNames: Array<string>;
+  country: string;
   about: string;
   firm: string;
   price: number;
-  image: ByteString;
+  images: Array<Image>;
+  salePercent: number;
+  optPrice: number;
+  optMinCount: number;
   
+}
+
+export class Image {
+  id: number;
+  byteImage: ByteString;
 }
 
 export class BuyItem {

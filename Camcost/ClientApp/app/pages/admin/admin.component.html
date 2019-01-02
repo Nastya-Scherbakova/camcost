@@ -100,10 +100,10 @@
             <div *ngIf="todo==2" class="container-fluid main-cont">
 
                 <nav mat-tab-nav-bar>
-                    <a mat-tab-link *ngFor="let option of options"
-                       routerLink="../{{relocateWindow(option)}}"
-                       (click)="activeLink = option"
-                       [active]="activeLink == option">{{ option }}</a>
+                    <a mat-tab-link *ngFor="let option of cathegories"
+                       routerLink="../{{relocateWindow(option.name)}}"
+                       (click)="activeLink = option.name"
+                       [active]="activeLink == option.name">{{ option.name }}</a>
 
                 </nav>
                 <search></search>
@@ -114,7 +114,7 @@
                     <div class="row content" style="width:500px">
                         <div class="col">
                             <button type="button" mat-button (click)="xlsxFileInput.click()">Выберите файл для загрузки <mat-icon>attachment</mat-icon></button>
-                            <input hidden type="file" id="file" #xlsxFileInput (change)="handleFileInput($event.target.files)" /><br />
+                            <input hidden type="file" accept=".xls,.xlsx" id="file" #xlsxFileInput (change)="handleFileInput($event.target.files)" /><br />
                         </div>
                         <div class="col">
                             <mat-form-field>
@@ -127,8 +127,8 @@
                     <mat-form-field style="width:250px" class="example-full-width">
                         <input style="width:250px" [(ngModel)]="cathegory" matInput [formControl]="myControl" placeholder="Выберите категорию" aria-label="Number" type="text" [matAutocomplete]="auto" required />
                         <mat-autocomplete #auto="matAutocomplete">
-                            <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
-                                {{ option }}
+                            <mat-option *ngFor="let option of filteredOptions | async" [value]="option.name">
+                                {{ option.name }}
                             </mat-option>
                         </mat-autocomplete>
                     </mat-form-field>
@@ -142,8 +142,8 @@
                                     (+{{myControl2.value.length - 1}} других)
                                 </span>
                             </mat-select-trigger>
-                            <div *ngFor="let topping of toppingList">
-                                <mat-option [value]="topping.title">{{topping.title}}</mat-option>
+                            <div *ngFor="let subcath of subCathegoriesList.checkboxes">
+                                <mat-option [value]="subcath.title">{{subcath.title}}</mat-option>
                             </div>
                         </mat-select>
 

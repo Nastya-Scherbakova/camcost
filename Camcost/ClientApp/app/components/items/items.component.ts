@@ -1,11 +1,13 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { Item } from '../../models/item.model';
+import { Item, BuyItem } from '../../models/item.model';
 import { ApiService } from '../../services/api.service';
 import { HttpClient, HttpResponse, HttpClientModule } from '@angular/common/http';
 import { Http, HttpModule } from '@angular/http'
 import { PageViewModel } from '../../models/page-view.model';
-import {DataService} from "../../services/data.service";
+import { DataService } from "../../services/data.service";
+import { ItemsService } from '../../services/items.service';
+import { Subscription } from 'rxjs/Subscription';
 
 
 
@@ -14,67 +16,37 @@ import {DataService} from "../../services/data.service";
   templateUrl: './items.component.html',
   styleUrls: ['./items.component.css']
 })
-export class ItemsComponent  {
-  public items: Array<Item> = new Array<Item>();
+export class ItemsComponent {
+  public items: Array<Item> ;
+  public itemsInBox: Array<Item>;
+  public itemsSubscriber: Subscription;
   // public items2: [];
-  @Input() parametres:string;
+  public parametres: Array<string> = this.itemsService.parametres;
   private noOfItemsToShowInitially: number = 8;
-  public page: PageViewModel;
+  public page: PageViewModel = this.itemsService.page;
   private itemsToLoad: number = 8;
 
-  public isFullListDisplayed: boolean = false;
+  public isFullListDisplayed: boolean = this.itemsService.isFullListDisplayed;
   api: ApiService;
-  constructor(private http: HttpClient, private dataService:DataService) {
-    this.api = new ApiService(http);
-    this.initializeItems();
-    
-   
-  }
-  public initializeItems() {
-    this.api.get('/api/Items').subscribe((res: any) => {
-      this.page = res;
-      this.page.pageSize = this.noOfItemsToShowInitially;
-      this.page.pageNumber = 1;
-      this.page.totalPages = Math.ceil(this.page.totalItems/this.page.pageSize);
-      
-      this.getItems();
-    })
-    // this.items=res);
+  constructor(private http: HttpClient, private dataService: DataService, private itemsService: ItemsService) {
 
+    this.api = new ApiService(http);
+    this.itemsInBox  = this.dataService.getData().map(function (el) {return el.item});
+    this.itemsSubscriber = this.itemsService.viewChanges().subscribe(all => {this.items = all});
+    //this.items = this.itemsService.items;
   }
+
   public addUserItem(item: Item) {
+    this.itemsInBox.push(item);
     this.dataService.addData(item);
   }
-  public filter() {
-    console.log("filter");
-    this.api.post('api/Items/Search', this.parametres).subscribe((res: Array<Item>) => {
-      if(res.length==0) this.items.splice(0);
-     else for (var i=0; i < this.page.pageSize; i++) {
-        this.items[i] = res[i];
-      }
+
+  onScroll() {
+    this.itemsService.onScroll();
+  
       
-    })
-  }
-    public getItems() {
-      console.log(this.page);
-    this.api.post('api/Items/Index', this.page).subscribe((res: any) => {
-     this.items=res;
-      
-    })
-    // this.items=res);
+    
 
   }
-  onScroll() {
-  console.log('scroll');
-    if (this.page.pageNumber < this.page.totalPages) {
-      // Update ending position to select more items from the array
-      this.page.pageSize += this.noOfItemsToShowInitially;
-      this.page.pageNumber++;
-      this.getItems();
-      
-   
-    } else {
-      this.isFullListDisplayed = true;
-    }
-  }
+
 }

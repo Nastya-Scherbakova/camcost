@@ -14,10 +14,12 @@
 
 }
 export class Checkbox {
+  id: number;
   title: string;
   checked: boolean;
-  father: string;
-  constructor(title: string, checked: boolean, father: string) {
+  father: number;
+  constructor( id:number, title: string, checked: boolean, father: number) {
+    this.id = id;
     this.father = father;
     this.checked = checked;
     this.title = title;

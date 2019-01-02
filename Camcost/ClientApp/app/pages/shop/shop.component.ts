@@ -14,6 +14,7 @@ import { DataService} from "../../services/data.service";
 import {BuyItem}  from "../../models/item.model";
 import { HostListener } from "@angular/core";
 import { Order } from '../../models/order.model';
+import {MatTableDataSource} from '@angular/material';
 
 
 @Component({
@@ -23,7 +24,7 @@ import { Order } from '../../models/order.model';
 })
 export class ShopComponent {
   public showStepper:boolean = false;
-  public userItems: Array<BuyItem>;
+  public userItems: BuyItem[];
   public account_validation_messages = {
     'name': [
       { type: 'required', message: 'Введите своё имя' },
@@ -118,6 +119,8 @@ export class ShopComponent {
     });
 
   }
+  public displayedColumns = ['photo', 'title', 'count', 'price'];
+  public dataSource: MatTableDataSource<BuyItem>;
 
   
   getMails(val: string){
@@ -223,12 +226,9 @@ export class ShopComponent {
     this.api = new ApiService(http);
     this.filter('');
     this.getMails('');
-   
+    this.dataSource = new MatTableDataSource(this.userItems);
   }
 
-  ngAfterViewInit() {
-    this.loaded = true; //TODO: solve the silk problem on page reloading in shop
-  }
 
 //TODO: Make it work on resizing
  @HostListener('window:resize', ['$event'])
@@ -252,11 +252,20 @@ export class ShopComponent {
   public changeData() {
     let those = this;
     this.userSum = 0;
+    let itemsCount = 0;
     this.userItems.forEach(el=> {
       those.userSum += el.item.price * el.count;
+      itemsCount+=el.count;
     });
     this.order.sum = this.userSum;
     this.order.items = this.userItems;
+    if (this.dataService.itemCount < itemsCount) {
+      this.dataService.changeCount(true);
+    }
+    else if(this.dataService.itemCount > itemsCount){
+      this.dataService.changeCount(false);
+    }
+    
     localStorage.setItem("userItems", JSON.stringify(this.userItems));
   }
 
@@ -267,3 +276,12 @@ export class ShopComponent {
 
 
 }
+
+export interface Element {
+  name: string;
+  position: number;
+  weight: number;
+  symbol: string;
+}
+
+

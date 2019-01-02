@@ -19,23 +19,28 @@ namespace Camcost.Controllers
         public ItemsController(ItemContext context)
         {
             _context = context;
-            filteredItems = _context.Items.ToList();
+            filteredItems = _context.Items.AsNoTracking().ToList();
         }
 
         // GET: api/Items
         [HttpGet]
-        public PageViewModel GetItems()
+        public IEnumerable<Item> GetItems()
         {
             PageViewModel page = new PageViewModel();
             page.TotalItems = _context.Items.Count();
-            return page;
+            page.PageNumber = 1;
+            page.PageSize = 8;
+            page.TotalPages = (int) (page.TotalItems/page.PageSize);
+            return Index(page);
         }
 
-        [HttpPost]
-        [Route("Index")]
-        public IEnumerable<Item> Index([FromBody] PageViewModel page)
+        /// <summary>
+        /// Index the filtered values for page view
+        /// </summary>
+        /// <returns>part of filtered array </returns>
+        public IEnumerable<Item> Index(PageViewModel page)
         {
-
+           
             int pageSize = (int)(page.PageSize / page.PageNumber);   // количество элементов на странице
             IEnumerable<Item> items;
             IEnumerable<Item> source = filteredItems;
@@ -49,28 +54,70 @@ namespace Camcost.Controllers
             return items;
         }
 
+        /// <summary>
+        /// Search by the searchString after filtering the context
+        /// </summary>
+        /// <param name="searchString"> String for search </param>
+        /// <returns> Method, that indexes for page view </returns>
+        public IEnumerable<Item> Search(string searchString, PageViewModel page)
+        {
+            var result = new List<Item>();
+
+            result.AddRange(filteredItems.Where(el=> el.About.ToUpper().Contains(searchString.ToUpper())));
+            result.AddRange(filteredItems.Where(el=> el.Title.ToUpper().Contains(searchString.ToUpper())));
+            result.AddRange(filteredItems.Where(el=> el.SubcathegoriesString.ToUpper().Contains(searchString.ToUpper())));
+            result.AddRange(filteredItems.Where(el=> el.FilterValuesString.ToUpper().Contains(searchString.ToUpper())));
+            result.AddRange(filteredItems.Where(el=> el.FilterNamesString.ToUpper().Contains(searchString.ToUpper())));
+            result.AddRange(filteredItems.Where(el=> el.Firm.ToUpper().Contains(searchString.ToUpper())));
+            result.AddRange(filteredItems.Where(el=> el.Country.ToUpper().Contains(searchString.ToUpper())));
+            result.AddRange(filteredItems.Where(el=> el.Cathegory.ToUpper().Contains(searchString.ToUpper())));
+
+            var distinctRes = new List<Item>();
+            distinctRes.AddRange(result.Distinct());
+            filteredItems = distinctRes;
+            
+            return Index(page);
+
+        }
+
+        /// <summary>
+        /// Search by filters and search string
+        /// </summary>
+        /// <param name="parametres"> filters </param>
+        /// <param name="searchString"> search words </param>
+        /// <returns> Search by string or index filterd elements if search string is empty </returns>
         [HttpPost]
-        [Route("Search")]
-        public IEnumerable<Item> Search([FromBody] List<string> parametres)
+        [Route("Search/{searchString?}")]
+        public async Task<IEnumerable<Item>> Search([FromBody] List<string> parametres, [FromRoute]string searchString = "", [FromRoute] int pageNumber = 0)
         {
 
-            IQueryable<Item> source = _context.Items;
-            var items = source.ToList();
+            IQueryable<Item> source = _context.Items.AsNoTracking();
+            var items = await source.ToListAsync();
             string gender;
-            
+
             if (parametres.Count > 0)
             {
-                if (parametres[0] != "3") { 
-                    if(parametres[0] == "1") gender="male";
-                    else  gender="female";
-                    items = source.Where(item => item.Gender.ToString() == gender).ToList(); }
-
-                if(parametres.Count>1) items = items.Where(item => item.Cathegory == parametres[1]).ToList();
-                for (var i = 2; i < parametres.Count; i++)
+                if (parametres[0] != "3")
                 {
-                   // items = items.Where(item => item.Filters?.Contains(parametres[i]) is true).ToList();
+                    if (parametres[0] == "1") gender = "male";
+                    else gender = "female";
+                    items = await source.Where(item => item.Gender.ToString() == gender).ToListAsync();
                 }
 
+                if (parametres.Count > 1) items = items.Where(item => item.Cathegory == parametres[1]).ToList();
+
+                if (parametres.Count > 2)
+                {
+                    var result = new List<Item>();
+                    for (var i = 2; i < parametres.Count; i++)
+                    {
+                        result.AddRange(items.Where(item => item.SubcathegoriesString?.Contains(parametres[i]) is true).ToList());
+                    }
+
+                    items = new List<Item>();
+                    items.AddRange(result.Distinct());
+
+                }
 
 
                 if (items.ToList().Count == 0)
@@ -80,7 +127,19 @@ namespace Camcost.Controllers
                 }
                 filteredItems = items;
             }
-            return items.ToList();
+             var page = new PageViewModel()
+            {
+                PageNumber=pageNumber,
+                PageSize=8*pageNumber,
+                TotalItems=filteredItems.Count,
+                TotalPages=(int)(filteredItems.Count/(8*pageNumber))
+            };
+            if (searchString.Length > 0)
+            {
+                return Search(searchString, page);
+            }
+            
+            return Index(page);
         }
         // GET: api/Items/5
         [HttpGet("{id}")]

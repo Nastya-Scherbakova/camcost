@@ -35,36 +35,9 @@ export class AdminComponent {
 
   myControl: FormControl = new FormControl();
   myControl2: FormControl = new FormControl();
-  toppingList = [
-    new Checkbox('Оригинал', false, 'Парфюмерия'),
-    new Checkbox('Тестер (ОАЭ)', false, 'Парфюмерия'),
-    new Checkbox('25 мл', false, 'Тестер (ОАЭ)'),
-    new Checkbox('40 мл', false, 'Тестер (ОАЭ)'),
-    new Checkbox('50 мл', false, 'Тестер (ОАЭ)'),
-    new Checkbox('В чехлах', false, 'Тестер (ОАЭ)'),
-    new Checkbox('На блистере', false, 'Тестер (ОАЭ)'),
-    new Checkbox('С феромонами', false, 'Тестер (ОАЭ)'),
-    new Checkbox('Наборы 3в1', false, 'Тестер (ОАЭ)'),
-    new Checkbox('Мини-парфюмерия', false, 'Тестер (ОАЭ)'),
-    new Checkbox('Парфюмерные масла', false, 'Тестер (ОАЭ)'),
-
-    new Checkbox('Пилки для ногтей', false, 'Уход за телом'),
-    new Checkbox('Крем', false, 'Уход за телом'),
-    new Checkbox('Бальзам', false, 'Уход за телом'),
-    new Checkbox('Гель', false, 'Уход за телом'),
-    new Checkbox('Жидкое мыло', false, 'Уход за телом'),
-    new Checkbox('Лосьон', false, 'Уход за телом)'),
-    new Checkbox('Наборы 4в1', false, 'Уход за телом')
-  ];
-  options = [
-    'Парфюмерия',
-    'Косметика',
-    'Средства для стирки',
-    'Уход за телом',
-    'Профессиональная техника для парикмахерских',
-
-  ];
-  public activeLink: string = this.options[0];
+  subCathegoriesList: SearchForm;
+  cathegories:any = [];
+  public activeLink: string = this.cathegories[0];
   filteredOptions: Observable<string[]>;
 
   ngOnInit() {
@@ -76,18 +49,33 @@ export class AdminComponent {
     this.getOrders();
   }
 
-  filter(val: string): string[] {
-    return this.options.filter(option =>
-      option.toLowerCase().indexOf(val.toLowerCase()) === 0);
+  filter(val: any) {
+    if (val != "") {
+      return this.cathegories.filter((option:any) =>
+      option.name.toLowerCase().indexOf(val.toLowerCase()) === 0);
+    }
+    else return this.cathegories;
+    
   }
 
   constructor(private http: HttpClient, private location: Location) {
     // this.todo= new Object() as ToDo;
+     this.http.get("/files/subCathegories.json").subscribe((data:any) => {
+      this.subCathegoriesList = new SearchForm(data.subCathegories);
+      
+       
+    });
+       
+  
+    this.http.get("/files/cathegories.json").subscribe((data:any) => {
+      this.cathegories = data.cathegories;
+       if (window.location.href.endsWith('parfumes')) { this.changeToDo(2); this.activeLink = this.cathegories[0].name; }
+    });
     this.todo = 1;
 
     this.href = window.location.href;
     this.api = new ApiService(http);
-    if (window.location.href.endsWith('parfumes')) { this.changeToDo(2); this.activeLink = this.options[0]; }
+    
   }
 
   changeToDo(number: number) {
@@ -99,7 +87,7 @@ export class AdminComponent {
       case 2: {
       this.todo = 2;
 
-        this.activeLink = this.options[0];
+        this.activeLink = this.cathegories[0].name;
         break;
       }
       case 3: {
@@ -138,17 +126,14 @@ export class AdminComponent {
     this.api.post('/api/Upload', input).subscribe();
   }
   relocateWindow(param: string): string {
-    switch (param) {
-      case 'Парфюмерия': { return '/parfumes'; }
-      case 'Косметика': { return '/cosmetics';; }
-      case
-        'Средства для стирки': { return '/wash'; }
-      case
-        'Уход за телом': { return '/bodycare'; }
-      case
-        'Профессиональная техника для парикмахерских': { return '/hair'; }
-    }
-    return '';
+    let link :string = "";
+    this.cathegories.forEach((el:any) => {
+      if (el.name == param) {
+         link = el.link.slice(7);
+        
+      }
+    });
+    return link;
   }
 
   getOrders() {

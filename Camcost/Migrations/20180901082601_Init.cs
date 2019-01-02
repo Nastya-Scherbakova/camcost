@@ -17,12 +17,16 @@ namespace Camcost.Migrations
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     About = table.Column<string>(nullable: true),
                     Cathegory = table.Column<string>(nullable: true),
-                    Filters = table.Column<string>(nullable: true),
-                    FiltersNames = table.Column<string>(nullable: true),
+                    Country = table.Column<string>(nullable: true),
+                    FilterNamesString = table.Column<string>(nullable: true),
+                    FilterValuesString = table.Column<string>(nullable: true),
                     Firm = table.Column<string>(nullable: true),
                     Gender = table.Column<int>(nullable: false),
-                    Image = table.Column<byte[]>(nullable: true),
-                    Price = table.Column<double>(nullable: false),
+                    OptMinCount = table.Column<int>(nullable: false),
+                    OptPrice = table.Column<decimal>(nullable: false),
+                    Price = table.Column<decimal>(nullable: false),
+                    SalePercent = table.Column<int>(nullable: false),
+                    SubcathegoriesString = table.Column<string>(nullable: true),
                     Title = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -57,6 +61,26 @@ namespace Camcost.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Orders", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Images",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    ByteImage = table.Column<byte[]>(nullable: true),
+                    ItemId = table.Column<int>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Images", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Images_Items_ItemId",
+                        column: x => x.ItemId,
+                        principalTable: "Items",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -95,6 +119,11 @@ namespace Camcost.Migrations
                 name: "IX_BuyItems_OrderId",
                 table: "BuyItems",
                 column: "OrderId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Images_ItemId",
+                table: "Images",
+                column: "ItemId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -103,10 +132,13 @@ namespace Camcost.Migrations
                 name: "BuyItems");
 
             migrationBuilder.DropTable(
-                name: "Items");
+                name: "Images");
 
             migrationBuilder.DropTable(
                 name: "Orders");
+
+            migrationBuilder.DropTable(
+                name: "Items");
         }
     }
 }

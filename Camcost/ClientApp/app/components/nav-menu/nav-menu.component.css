@@ -15,9 +15,22 @@ div.containerr a:hover {
     box-shadow: 0 2px 1px -1px rgba(0,0,0,.2), 0 3px 1px 0 rgba(0,0,0,.14), 0 5px 5px 0 rgba(0,0,0,.12);
 }
 
+.items-chip {
+    background-color: #212121;
+    width: 30px;
+    height: 30px;
+    color: white;
+    border-radius: 50%;
+    border: none;
+    text-align: center;
+    
+    position: absolute;
+    left: 25px;
+}
+
 .call {
     display: inline-block;
-    color: #A90D0D;
+    color: #3f51b5;
     left: -30px;
 }
 
@@ -42,7 +55,7 @@ div.containerr a:hover {
     }
 
         .contacts a:hover {
-            color: #A90D0D;
+            color: #3f51b5;
         }
 
 @media (min-width: 1200px) {
@@ -88,6 +101,7 @@ div.containerr a:hover {
 .shop {
     display: flex;
     align-items: center;
+    position: relative;
 }
 
 .basket {
@@ -112,7 +126,7 @@ div.containerr a:hover {
 }
 
 .menu-wrap-icon {
-    color: #A90D0D;
+    color: #3f51b5;
     font-size: 7vw;
     width: 7vw;
     height: auto;
@@ -167,17 +181,17 @@ div.containerr a:hover {
     box-shadow: 0 0 3px rgba(0,0,0,0.1);
 }
 
-    .list-menu div:hover {
-        color: #fff;
-    }
+    
 
 svg {
     text-align: end;
 }
 
 .list-menu div:hover {
-    background-color: rgba(190, 8, 8, 0.65);
-    color: rgba(255, 255, 255, 0.88);
+    border-left: 2px solid #3f51b5;
+    border-right: 2px solid #3f51b5;
+    background-color: #e8eaf6;
+    transition: all 0.3s;
 }
 
 
@@ -226,7 +240,7 @@ svg {
 }
 
 #search_text:focus {
-    background: rgb(169, 13, 13);
+    background: #3f50b5;
 }
 
 #search_button {
@@ -271,7 +285,7 @@ svg {
     left: 0;
     padding: 21px 40px 24px;
     top: 182px;
-    border-top: 2px solid #A90D0D;
+    border-top: 2px solid #3f51b5;
     background-color: #fafafa;
     text-align: left;
     opacity: 1;
@@ -350,7 +364,7 @@ svg {
     padding: 10px 10px;
     position: relative;
     z-index: 0;
-    border-right: 1px solid #dadada;
+    
     cursor: pointer;
 }
 
@@ -359,7 +373,7 @@ svg {
     }
 
 .close {
-    color: #A90D0D;
+    color: #3f51b5;
     font-size: 7vw;
     width: 7vw;
     height: auto;
